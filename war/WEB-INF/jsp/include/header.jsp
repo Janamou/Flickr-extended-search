@@ -5,7 +5,7 @@
 	</div>
 	<ul class="menu menu-h">
 		<li><a href="/">Domů</a></li>
-		<li><a href="search.jsp">Vyhledávání</a></li>
-		<li><a href="about.jsp">O projektu</a></li>
+		<li><a href="/search">Vyhledávání</a></li>
+		<li><a href="/about">O projektu</a></li>
 	</ul>
 </div>

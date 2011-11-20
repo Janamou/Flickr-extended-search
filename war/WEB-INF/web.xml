@@ -6,7 +6,7 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet>
 		<servlet-name>Index</servlet-name>
-		<servlet-class>com.moudra.vmw.flickr.IndexServlet</servlet-class>
+		<servlet-class>com.moudra.vmw.flickr.servlets.IndexServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Index</servlet-name>
@@ -14,10 +14,10 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>Search</servlet-name>
-		<servlet-class>com.moudra.vmw.flickr.SearchServlet</servlet-class>
+		<servlet-class>com.moudra.vmw.flickr.servlets.SearchServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Search</servlet-name>
-		<url-pattern>search.jsp</url-pattern>
+		<url-pattern>/search</url-pattern>
 	</servlet-mapping>
 </web-app>
