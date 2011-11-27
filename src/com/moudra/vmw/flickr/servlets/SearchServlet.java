@@ -2,6 +2,8 @@ package com.moudra.vmw.flickr.servlets;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
@@ -11,7 +13,9 @@ import com.gmail.yuyang226.flickr.REST;
 import com.gmail.yuyang226.flickr.photos.PhotoList;
 import com.gmail.yuyang226.flickr.photos.PhotosInterface;
 import com.gmail.yuyang226.flickr.photos.SearchParameters;
+import com.google.appengine.repackaged.com.google.common.collect.Iterables;
 import com.moudra.vmw.flickr.classes.Constants;
+import com.moudra.vmw.flickr.classes.StringUtils;
 
 public class SearchServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -33,15 +37,15 @@ public class SearchServlet extends HttpServlet {
 			Flickr flickr = new Flickr(Constants.API_KEY, Constants.API_SECRET, rest);
 			PhotosInterface iface = flickr.getPhotosInterface();
 			SearchParameters searchParams = new SearchParameters();
-			
-			String user = req.getParameter("user");
-			String tags[] = processTags(req.getParameter("tags").split(","));
+						
 			String tagsMode = req.getParameter("tags_mode");
-			String text = req.getParameter("text");
-			String minUploadDate = req.getParameter("min_upload_date");
-			String maxUploadDate = req.getParameter("max_upload_date");
-			String minTakenDate = req.getParameter("min_taken_date");
-			String maxTakenDate = req.getParameter("max_taken_date");
+			String text = req.getParameter("keywords");
+			String textSelection = req.getParameter("text_selection");
+			
+			String minDate = req.getParameter("min_date");
+			String maxDate = req.getParameter("max_date");
+			String dateSelection = req.getParameter("date_selection");
+			
 			String minLongitude = req.getParameter("min_longitude");
 			String maxLongitude = req.getParameter("max_longitude");
 			String minLatitude = req.getParameter("min_latitude");
@@ -54,41 +58,41 @@ public class SearchServlet extends HttpServlet {
 			String searchResults = req.getParameter("search_results");
 			int perPage = 50;
 			
-			if(!isStringEmpty(user)){
-				searchParams.setUserId(user);
+			if(textSelection.equals("text")){
+				if(!StringUtils.isStringEmpty(text)){
+					searchParams.setText(text);
+				}
+			} else {
+				if(!StringUtils.isStringEmpty(text)){
+					String tags[] = StringUtils.processTags(text.split(" "));
+					searchParams.setTags(tags);
+				}
 			}
 			
-			
-			if(tags != null){
-				searchParams.setTags(tags);
-			}
-						
-			if(!isSeletBoxEmpty(tagsMode)){
+			if(!StringUtils.isStringEmpty(tagsMode)){
 				searchParams.setTagMode(tagsMode);
 			}
-						
 			
-			if(!isStringEmpty(text)){
-				searchParams.setText(text);
-			}
-			
-			if(!isStringEmpty(minUploadDate)){
-				searchParams.setMinUploadDate(new Date(minUploadDate));
-			}
-			
-			if(!isStringEmpty(maxUploadDate)){
-				searchParams.setMaxUploadDate(new Date(maxUploadDate));
-			}
-			
-			if(!isStringEmpty(minTakenDate)){
-				searchParams.setMinTakenDate(new Date(minTakenDate));
-			}
-			
-			if(!isStringEmpty(maxTakenDate)){
-				searchParams.setMaxTakenDate(new Date(maxTakenDate));
+			if(dateSelection.equals("upload")){
+				if(!StringUtils.isStringEmpty(minDate)){
+					searchParams.setMinUploadDate(StringUtils.createDate(minDate));
+				}
+				
+				if(!StringUtils.isStringEmpty(maxDate)){
+					searchParams.setMaxUploadDate(StringUtils.createDate(maxDate));
+				}
+			} else {
+				if(!StringUtils.isStringEmpty(minDate)){
+					searchParams.setMinTakenDate(StringUtils.createDate(minDate));
+				}
+				
+				if(!StringUtils.isStringEmpty(maxDate)){
+					searchParams.setMaxTakenDate(StringUtils.createDate(maxDate));
+				}
 			}
 						
-			if(!isStringEmpty(minLongitude) && !isStringEmpty(maxLongitude) && !isStringEmpty(minLatitude) && !isStringEmpty(maxLatitude)){
+									
+			if(!StringUtils.isStringEmpty(minLongitude) && !StringUtils.isStringEmpty(maxLongitude) && !StringUtils.isStringEmpty(minLatitude) && !StringUtils.isStringEmpty(maxLatitude)){
 				searchParams.setBBox(minLongitude, minLatitude, maxLongitude, maxLatitude);
 			}
 			
@@ -97,56 +101,46 @@ public class SearchServlet extends HttpServlet {
 				searchParams.setAccuracy(Integer.parseInt(accuracy));
 			}*/
 						
-			if(!isStringEmpty(latitude)){
+			if(!StringUtils.isStringEmpty(latitude)){
 				searchParams.setLatitude(latitude);
 			}
 			
-			if(!isStringEmpty(longitude)){
+			if(!StringUtils.isStringEmpty(longitude)){
 				searchParams.setLongitude(longitude);
 			}
 						
-			if(!isStringEmpty(radius)){
+			if(!StringUtils.isStringEmpty(radius)){
+				System.out.println(Integer.parseInt(radius));
 				searchParams.setRadius(Integer.parseInt(radius));
 			}
 			
-			if(!isSeletBoxEmpty(radiusUnits)){
+			if(!StringUtils.isStringEmpty(radiusUnits)){
 				searchParams.setRadiusUnits(radiusUnits);
 			}
 			
-			if(!isStringEmpty(searchResults)){
+			if(!StringUtils.isStringEmpty(searchResults)){
 				perPage = Integer.parseInt(searchResults);
 			}
 			
+			searchParams.setMedia("photos");
 			
-			//images.get(0).get
+			Set<String> extras = new HashSet();
+			extras.add("description");
+			extras.add("date_upload");
+			extras.add("date_taken");
+			extras.add("geo");
+			extras.add("tags");
 			
-			PhotoList images = iface.search(searchParams, perPage, 0);
+			searchParams.setExtras(extras);
 			
-			System.out.println(images.get(0));
-			System.out.println(images.size());
-			System.out.println("ahoj2");
+			PhotoList images = iface.search(searchParams, 50, 0);
 			
-			req.setAttribute("images", images);			
+			req.setAttribute("images", images);	
+			req.setAttribute("size", images.size());	
 			getServletContext().getRequestDispatcher("/WEB-INF/jsp/search-results.jsp").forward(req, resp);
 	        
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
-	}
-	
-	private boolean isStringEmpty(String s){
-		return (s == null || s.equals(""));
-	}
-	
-	private boolean isSeletBoxEmpty(String s){
-		return s == "none";
-	}
-	
-	private String[] processTags(String[] sArray){
-		for(int i = 0; i< sArray.length; i++){
-			sArray[i] = sArray[i].trim();
-		}
-		
-		return sArray;
 	}
 }

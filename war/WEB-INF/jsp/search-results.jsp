@@ -10,15 +10,27 @@
 	<%@ include file="include/header.jsp" %>
 	<div id="container">
 		<h1>Výsledky vyhledávání</h1>
+		<p>Nalezeno: ${size} výsledků.</p>
 		<c:forEach var="image" items="${images}">
-	      <a href="${image.url}" rel="lightbox">
-	      	<img src="${image.thumbnailUrl}" width="${image.thumbnailSize.width}" width="${image.thumbnailSize.height}" />
-	      	<h3><c:if test="${image.title != null}">${image.title}</c:if>, 
-	      	date added: ${image.dateAdded}, date posted: ${image.datePosted}, 
-	      	date taken: ${image.dateTaken}, Lat: ${image.geoData.latitude}, 
-	      	Long: ${image.geoData.longitude}, Přesnost: ${image.geoData.accuracy}
-	      	Tagy: ${image.tags}</h3>
-	      </a>
+			<div class="image">
+				 <a href="${image.url}">	
+				 	<img src="${image.thumbnailUrl}" />
+				 </a>
+				 <h3><c:if test="${image.title != null}">${image.title}</c:if></h3>
+				 <p><c:if test="${image.description != null}">${image.description}</c:if></p>
+				 <p>
+				 	<c:if test="${image.dateAdded != null}">Datum přidání: ${image.dateAdded}, </c:if>
+				 	<c:if test="${image.dateTaken != null}">Datum pořízení: ${image.dateTaken}</c:if>
+				 </p>
+				 <p>
+				 	<c:if test="${image.geoData.longitude != null && image.geoData.latitude != null}">Geo data: lat: ${image.geoData.latitude}, lon: ${image.geoData.longitude}</c:if>
+				 </p>
+				 <p>
+				 	<c:if test="${image.tags != null}">Tagy: 
+				 		<c:forEach var="tag" items="${image.tags}">${tag.value}, </c:forEach>
+				 	</c:if>				 
+				 </p>
+			</div>	      
 	    </c:forEach>
 	</div>
 	<%@ include file="include/footer.jsp" %>

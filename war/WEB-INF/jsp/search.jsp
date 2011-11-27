@@ -3,72 +3,43 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" type="text/css" media="all" />
 <link rel="stylesheet" href="http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css" type="text/css" media="all" />
+<link rel="stylesheet" href="css/ui.stepper.css" type="text/css" media="all" />
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" type="text/javascript"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/i18n/jquery-ui-i18n.min.js" type="text/javascript"></script>
+<script src="js/jquery.ui.datepicker-cs.js" type="text/javascript"></script>
+<script src="js/jquery.mousewheel.js" type="text/javascript"></script>
+<script src="js/ui.spinner.js" type="text/javascript"></script>
+<script src="js/init.js" type="text/javascript"></script>
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-	<script type="text/javascript">
-	  function initialize() {
-	    var latlng = new google.maps.LatLng(49.71, 15.29);
-	    var myOptions = {
-	      zoom: 4,
-	      center: latlng,
-	      mapTypeId: google.maps.MapTypeId.ROADMAP
-	    };
-	    var map = new google.maps.Map(document.getElementById("map_canvas"),
-	        myOptions);
-	    
-	    google.maps.event.addListener(map, 'click', clicked);
-	  }
-	  
-	  function clicked(event) {
-		  var latitude = $("#latitude");
-		  var longitude = $("#longitude");
-		  
-		  latitude.val(event.latLng.lat());
-		  longitude.val(event.latLng.lng());
-	  }
-	  
-	  $(function() {
-			$(".datepicker").datepicker();
-			$.datepicker.setDefaults($.datepicker.regional['']);
-			$(selector).datepicker($.datepicker.regional['']); 
-		});	  
-	</script>	
+
 <title>Semestrální práce VMW - Flickr - metadata based reranking</title>
 </head>
-<body onload="initialize()">
+<body>
 	<%@ include file="include/header.jsp" %>
 	<div id="container">
 		<h1>Vyhledávání</h1>
 		<p>Zadejte parametry, podle kterých chcete vyhledávat.</p>
 		TODO: vytvorit ruzne typy razeni
 		reagovat na errory
-		<form action="search" method="post">
+		<form action="search" method="post" id="search">
 			<h2>Základní vyhledávání</h2>
 			<table>
 				<tbody>
 					<tr>
-						<th><label for="text">Text:</label></th>
-						<td><input type="text" name="text" id="text" /></td>
-					</tr>	
-					<tr>
-						<th><label for="tags">Tagy:</label></th>
+						<th><label for="keywords">Klíčová slova:</label></th>
 						<td>
-							<input type="text" name="tags" id="tags" />
+							<input type="text" name="keywords" id="keywords" />
 							<select name="tags_mode" id="tags_mode">
-								<option value="none">-----</option>
-								<option value="any">Některé</option>
-								<option value="or">Všechny</option>
+								<option value="any">Některé slova</option>
+								<option value="all">Všechna slova</option>
 							</select>
+							<br />
+							<label for="text">text</label><input type="radio" name="text_selection" id="text" value="text" checked="checked" />
+							<label for="tags">tagy</label><input type="radio" name="text_selection" id="tags" value="tagy"/>	
 						</td>
-					</tr>
-					<tr>
-						<th><label for="user">Jmeno uzivatele:</label></th>
-						<td><input type="text" name="user" id="user" /></td>
 					</tr>		
 				</tbody>
 			</table>
@@ -76,21 +47,17 @@
 			<table>
 				<tbody>
 					<tr>
-						<th><label for="min_upload_date">Min upload date:</label></th>
-						<td><input type="text" name="min_upload_date" id="min_upload_date" class="datepicker" /></td>
-					</tr>
-					<tr>
-						<th><label for="max_upload_date">Max upload date:</label></th>
-						<td><input type="text" name="max_upload_date" id="max_upload_date" class="datepicker" /></td>
-					</tr>
-					<tr>
-						<th><label for="min_taken_date">Min taken date:</label></th>
-						<td><input type="text" name="min_taken_date" id="min_taken_date" class="datepicker" /></td>
-					</tr>
-					<tr>
-						<th><label for="max_taken_date">Max taken date:</label></th>
-						<td><input type="text" name="max_taken_date" id="max_taken_date" class="datepicker" /></td>
-					</tr>				
+						<th>Datum:</th>
+						<td>
+							<label for="min_date">Od:</label>
+							<input type="text" name="min_date" id="min_date" class="datepicker" />
+							<label for="max_date">Do:</label>
+							<input type="text" name="max_date" id="max_date" class="datepicker" />
+							<br />
+							<label for="upload_date">nahrání</label><input type="radio" name="date_selection" id="upload_date" value="upload" checked="checked" />
+							<label for="taken_date">pořízení</label><input type="radio" name="date_selection" id="taken_date" value="taken"/>	
+						</td>
+					</tr>			
 				</tbody>
 			</table>
 			<h2>Vyhledávání s lokací</h2>
@@ -129,13 +96,14 @@
 					</tr>
 					<tr>
 						<th><label for="radius">Poloměr:</label></th>
-						<td><input type="text" name="radius" id="radius" /></td>
+						<td>
+							<input type="text" name="radius" id="radius" value="5" />
+						</td>
 					</tr>
 					<tr>
 						<th><label for="radius_units">Jednotky:</label></th>
 						<td>
 							<select name="radius_units" id="radius_units">
-								<option value="none">-----</option>
 								<option value="km">Kilometry</option>
 								<option value="mi">Míle</option>
 							</select>
@@ -143,8 +111,13 @@
 					</tr>				
 				</tbody>
 			</table>
-			<h2>Počet výsledků na stránku</h2>
-			<input type="text" name="search_results" id="search_results" />
+			<label for="search_results">Počet výsledků na stránku</label>
+			<select name="search_results" id="search_results">
+				<option value="10">10</option>
+				<option value="25">25</option>
+				<option value="50">50</option>
+				<option value="100">100</option>
+			</select>
 			<input type="submit" value="Vyhledat" />
 		</form>
 	</div>
