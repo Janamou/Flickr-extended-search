@@ -38,11 +38,11 @@
 	  }
 	  
 	  function placeMarker(position, map) { 
-        infoWindow.setContent('latitude:' + position.lat() + ',<br>longitude: ' + position.lng()); 
+        infoWindow.setContent('Latitude: ' + position.lat() + ',<br>Longitude: ' + position.lng()); 
         
         marker.setPosition(position);
         marker.setMap(map);
-        map.panTo(position);
+        //map.panTo(position);
       }
 	  
 $(document).ready(function(){
@@ -58,8 +58,8 @@ $(document).ready(function(){
 	//Form submit
 	$("form").submit(function(){
     if($("#keywords").val() == ""){
-      alert("Prosím vyplňte klíčové slovo, které se bude vyhledávat");
-      return false;
+      //alert("Prosím vyplňte text nebo geolokaci, podle které budete vyhledávat.");
+      //return false;
     }
   });
 

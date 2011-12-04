@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -13,23 +15,29 @@
 		<p>Nalezeno: ${size} výsledků.</p>
 		<c:forEach var="image" items="${images}">
 			<div class="image">
-				 <a href="${image.url}">	
-				 	<img src="${image.thumbnailUrl}" />
+				Cena: ${image.cost}
+				 <a href="${image.photo.url}">	
+				 	<img src="${image.photo.thumbnailUrl}" />
 				 </a>
-				 <h3><c:if test="${image.title != null}">${image.title}</c:if></h3>
-				 <p><c:if test="${image.description != null}">${image.description}</c:if></p>
+				 <h3><c:if test="${image.photo.title != null}">${image.photo.title}</c:if></h3>
+				 <p><c:if test="${image.photo.description != null}">${image.photo.description}</c:if></p>
 				 <p>
-				 	<c:if test="${image.dateAdded != null}">Datum přidání: ${image.dateAdded}, </c:if>
-				 	<c:if test="${image.dateTaken != null}">Datum pořízení: ${image.dateTaken}</c:if>
+				 	<c:if test="${image.photo.dateAdded != null}">Datum přidání: <fmt:formatDate value="${image.photo.dateAdded}" pattern="dd.MM.yyyy HH:mm"/>, </c:if>
+				 	<c:if test="${image.photo.dateTaken != null}">Datum pořízení: <fmt:formatDate value="${image.photo.dateTaken}" pattern="dd.MM.yyyy HH:mm"/></c:if>
 				 </p>
 				 <p>
-				 	<c:if test="${image.geoData.longitude != null && image.geoData.latitude != null}">Geo data: lat: ${image.geoData.latitude}, lon: ${image.geoData.longitude}</c:if>
+				 	<c:if test="${image.photo.geoData.longitude != null && image.photo.geoData.latitude != null}">Geo data: lat: ${image.photo.geoData.latitude}, lon: ${image.photo.geoData.longitude}</c:if>
 				 </p>
 				 <p>
-				 	<c:if test="${image.tags != null}">Tagy: 
-				 		<c:forEach var="tag" items="${image.tags}">${tag.value}, </c:forEach>
+				 	<c:if test="${image.photo.tags != null && image.photo.tags[0].value != ''}">Tagy: 				 
+				 		<c:forEach var="tag" items="${image.photo.tags}">
+				 			<c:if test="${tag.value != ''}">
+				 				${tag.value},
+				 			</c:if>
+				 		 </c:forEach>	
 				 	</c:if>				 
 				 </p>
+				 <p>Šířka: ${image.photo.originalWidth}px, Výška: ${image.photo.originalHeight}px</p>
 			</div>	      
 	    </c:forEach>
 	</div>

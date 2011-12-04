@@ -1,6 +1,8 @@
 package com.moudra.vmw.flickr.servlets;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,12 +12,17 @@ import javax.servlet.http.*;
 
 import com.gmail.yuyang226.flickr.Flickr;
 import com.gmail.yuyang226.flickr.REST;
+import com.gmail.yuyang226.flickr.collections.Collection;
+import com.gmail.yuyang226.flickr.photos.Extras;
+import com.gmail.yuyang226.flickr.photos.Photo;
 import com.gmail.yuyang226.flickr.photos.PhotoList;
 import com.gmail.yuyang226.flickr.photos.PhotosInterface;
 import com.gmail.yuyang226.flickr.photos.SearchParameters;
 import com.google.appengine.repackaged.com.google.common.collect.Iterables;
-import com.moudra.vmw.flickr.classes.Constants;
-import com.moudra.vmw.flickr.classes.StringUtils;
+import com.moudra.vmw.flickr.utils.Constants;
+import com.moudra.vmw.flickr.utils.Distances;
+import com.moudra.vmw.flickr.utils.RankedPhoto;
+import com.moudra.vmw.flickr.utils.StringUtils;
 
 public class SearchServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -46,16 +53,22 @@ public class SearchServlet extends HttpServlet {
 			String maxDate = req.getParameter("max_date");
 			String dateSelection = req.getParameter("date_selection");
 			
-			String minLongitude = req.getParameter("min_longitude");
-			String maxLongitude = req.getParameter("max_longitude");
-			String minLatitude = req.getParameter("min_latitude");
-			String maxLatitude = req.getParameter("max_latitude");
-			String accuracy = req.getParameter("accuracy");
 			String latitude = req.getParameter("latitude");
 			String longitude = req.getParameter("longitude");
 			String radius = req.getParameter("radius");
-			String radiusUnits = req.getParameter("radius_units");
 			String searchResults = req.getParameter("search_results");
+			
+			//Reranking options
+			boolean isRerankString = StringUtils.isStringTrue(req.getParameter("rerank_string"));
+			boolean isRerankGeo = StringUtils.isStringTrue(req.getParameter("rerank_geo"));
+			boolean isRerankDate = StringUtils.isStringTrue(req.getParameter("rerank_date"));
+			boolean isRerankSize = StringUtils.isStringTrue(req.getParameter("rerank_size"));
+			
+			String rerankPriorityString = req.getParameter("rerank_priority_string");
+			String rerankPriorityGeo = req.getParameter("rerank_priority_geo");
+			String rerankPriorityDate = req.getParameter("rerank_priority_date");
+			String rerankPrioritySize = req.getParameter("rerank_priority_size");
+			
 			int perPage = 50;
 			
 			if(textSelection.equals("text")){
@@ -75,31 +88,21 @@ public class SearchServlet extends HttpServlet {
 			
 			if(dateSelection.equals("upload")){
 				if(!StringUtils.isStringEmpty(minDate)){
-					searchParams.setMinUploadDate(StringUtils.createDate(minDate));
+					searchParams.setMinUploadDate(StringUtils.createDateFromString(minDate));
 				}
 				
 				if(!StringUtils.isStringEmpty(maxDate)){
-					searchParams.setMaxUploadDate(StringUtils.createDate(maxDate));
+					searchParams.setMaxUploadDate(StringUtils.createDateFromString(maxDate));
 				}
 			} else {
 				if(!StringUtils.isStringEmpty(minDate)){
-					searchParams.setMinTakenDate(StringUtils.createDate(minDate));
+					searchParams.setMinTakenDate(StringUtils.createDateFromString(minDate));
 				}
 				
 				if(!StringUtils.isStringEmpty(maxDate)){
-					searchParams.setMaxTakenDate(StringUtils.createDate(maxDate));
+					searchParams.setMaxTakenDate(StringUtils.createDateFromString(maxDate));
 				}
 			}
-						
-									
-			if(!StringUtils.isStringEmpty(minLongitude) && !StringUtils.isStringEmpty(maxLongitude) && !StringUtils.isStringEmpty(minLatitude) && !StringUtils.isStringEmpty(maxLatitude)){
-				searchParams.setBBox(minLongitude, minLatitude, maxLongitude, maxLatitude);
-			}
-			
-			/*
-			if(!isSeletBoxEmpty(accuracy)){
-				searchParams.setAccuracy(Integer.parseInt(accuracy));
-			}*/
 						
 			if(!StringUtils.isStringEmpty(latitude)){
 				searchParams.setLatitude(latitude);
@@ -110,37 +113,40 @@ public class SearchServlet extends HttpServlet {
 			}
 						
 			if(!StringUtils.isStringEmpty(radius)){
-				System.out.println(Integer.parseInt(radius));
 				searchParams.setRadius(Integer.parseInt(radius));
-			}
-			
-			if(!StringUtils.isStringEmpty(radiusUnits)){
-				searchParams.setRadiusUnits(radiusUnits);
 			}
 			
 			if(!StringUtils.isStringEmpty(searchResults)){
 				perPage = Integer.parseInt(searchResults);
 			}
 			
-			searchParams.setMedia("photos");
-			
-			Set<String> extras = new HashSet();
-			extras.add("description");
-			extras.add("date_upload");
-			extras.add("date_taken");
-			extras.add("geo");
-			extras.add("tags");
-			
-			searchParams.setExtras(extras);
+			searchParams.setMedia(Constants.MEDIA_TYPE); //sets media searched
+			searchParams.setRadiusUnits(Constants.GEO_UNITS); //sets units for geo used
+			searchParams.setExtras(Extras.ALL_EXTRAS); //sets extra information used in search results
 			
 			PhotoList images = iface.search(searchParams, 50, 0);
+			RankedPhoto[] rankedPhotos = generateRankedPhotos(images);
 			
-			req.setAttribute("images", images);	
+			req.setAttribute("images", rankedPhotos);	
 			req.setAttribute("size", images.size());	
 			getServletContext().getRequestDispatcher("/WEB-INF/jsp/search-results.jsp").forward(req, resp);
 	        
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private RankedPhoto[] generateRankedPhotos(PhotoList images){
+		RankedPhoto[] photoArray = new RankedPhoto[images.size()];
+		
+		double cost = 0; //TODO
+		
+		for (int i = 0;i < photoArray.length; i++){
+			photoArray[i] = new RankedPhoto(images.get(i), Math.random());
+		}
+		
+		Arrays.sort(photoArray, Collections.reverseOrder());
+		
+		return photoArray;
 	}
 }
