@@ -14,8 +14,8 @@ import com.gmail.yuyang226.flickr.photos.PhotoList;
 import com.gmail.yuyang226.flickr.photos.PhotosInterface;
 import com.gmail.yuyang226.flickr.photos.SearchParameters;
 import com.google.appengine.repackaged.com.google.common.collect.Iterables;
-import com.moudra.vmw.flickr.classes.Constants;
-import com.moudra.vmw.flickr.classes.StringUtils;
+import com.moudra.vmw.flickr.utils.Constants;
+import com.moudra.vmw.flickr.utils.StringUtils;
 
 public class SearchServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -46,16 +46,22 @@ public class SearchServlet extends HttpServlet {
 			String maxDate = req.getParameter("max_date");
 			String dateSelection = req.getParameter("date_selection");
 			
-			String minLongitude = req.getParameter("min_longitude");
-			String maxLongitude = req.getParameter("max_longitude");
-			String minLatitude = req.getParameter("min_latitude");
-			String maxLatitude = req.getParameter("max_latitude");
-			String accuracy = req.getParameter("accuracy");
 			String latitude = req.getParameter("latitude");
 			String longitude = req.getParameter("longitude");
 			String radius = req.getParameter("radius");
-			String radiusUnits = req.getParameter("radius_units");
 			String searchResults = req.getParameter("search_results");
+			
+			//Reranking options
+			boolean isRerankString = StringUtils.isStringTrue(req.getParameter("rerank_string"));
+			boolean isRerankGeo = StringUtils.isStringTrue(req.getParameter("rerank_geo"));
+			boolean isRerankDate = StringUtils.isStringTrue(req.getParameter("rerank_date"));
+			boolean isRerankSize = StringUtils.isStringTrue(req.getParameter("rerank_size"));
+			
+			String rerankPriorityString = req.getParameter("rerank_priority_string");
+			String rerankPriorityGeo = req.getParameter("rerank_priority_geo");
+			String rerankPriorityDate = req.getParameter("rerank_priority_date");
+			String rerankPrioritySize = req.getParameter("rerank_priority_size");
+			
 			int perPage = 50;
 			
 			if(textSelection.equals("text")){
@@ -75,31 +81,21 @@ public class SearchServlet extends HttpServlet {
 			
 			if(dateSelection.equals("upload")){
 				if(!StringUtils.isStringEmpty(minDate)){
-					searchParams.setMinUploadDate(StringUtils.createDate(minDate));
+					searchParams.setMinUploadDate(StringUtils.createDateFromString(minDate));
 				}
 				
 				if(!StringUtils.isStringEmpty(maxDate)){
-					searchParams.setMaxUploadDate(StringUtils.createDate(maxDate));
+					searchParams.setMaxUploadDate(StringUtils.createDateFromString(maxDate));
 				}
 			} else {
 				if(!StringUtils.isStringEmpty(minDate)){
-					searchParams.setMinTakenDate(StringUtils.createDate(minDate));
+					searchParams.setMinTakenDate(StringUtils.createDateFromString(minDate));
 				}
 				
 				if(!StringUtils.isStringEmpty(maxDate)){
-					searchParams.setMaxTakenDate(StringUtils.createDate(maxDate));
+					searchParams.setMaxTakenDate(StringUtils.createDateFromString(maxDate));
 				}
 			}
-						
-									
-			if(!StringUtils.isStringEmpty(minLongitude) && !StringUtils.isStringEmpty(maxLongitude) && !StringUtils.isStringEmpty(minLatitude) && !StringUtils.isStringEmpty(maxLatitude)){
-				searchParams.setBBox(minLongitude, minLatitude, maxLongitude, maxLatitude);
-			}
-			
-			/*
-			if(!isSeletBoxEmpty(accuracy)){
-				searchParams.setAccuracy(Integer.parseInt(accuracy));
-			}*/
 						
 			if(!StringUtils.isStringEmpty(latitude)){
 				searchParams.setLatitude(latitude);
@@ -114,24 +110,14 @@ public class SearchServlet extends HttpServlet {
 				searchParams.setRadius(Integer.parseInt(radius));
 			}
 			
-			if(!StringUtils.isStringEmpty(radiusUnits)){
-				searchParams.setRadiusUnits(radiusUnits);
-			}
-			
 			if(!StringUtils.isStringEmpty(searchResults)){
 				perPage = Integer.parseInt(searchResults);
 			}
 			
-			searchParams.setMedia("photos");
+			searchParams.setMedia("photos"); //sets media searched
+			searchParams.setRadiusUnits("km"); //sets units for geo used
+			setExtras(searchParams); //sets extra information used in search results
 			
-			Set<String> extras = new HashSet();
-			extras.add("description");
-			extras.add("date_upload");
-			extras.add("date_taken");
-			extras.add("geo");
-			extras.add("tags");
-			
-			searchParams.setExtras(extras);
 			
 			PhotoList images = iface.search(searchParams, 50, 0);
 			
@@ -142,5 +128,17 @@ public class SearchServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void setExtras(SearchParameters searchParams){
+		
+		Set<String> extras = new HashSet();
+		extras.add("description");
+		extras.add("date_upload");
+		extras.add("date_taken");
+		extras.add("geo");
+		extras.add("tags");
+		
+		searchParams.setExtras(extras);
 	}
 }
