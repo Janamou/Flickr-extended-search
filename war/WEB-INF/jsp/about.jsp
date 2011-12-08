@@ -14,17 +14,24 @@
 	
 	<div id="page" class="box">
 		<div id="page-in" class="box">			
-			
+	
 			<div id="content">			
-				<!--  <div class="article"> -->
-				<div class="intro">
-					<h2><span>Vítejte!</span></h2>														
+				<div class="article">							
+					<h2><span>Zadání projektu</span></h2>          
+          			<p>Cílem projektu je vytvoření aplikace umožňující vylepšené vyhledávání ve fotografiích uložených na serveru 
+Flickr. Flickr poskytuje aplikační rozhraní umožňující získat prakticky libovolná data o fotografiích, která jsou 
+přístupna i z oficiálního webového rozhraní. Cílem projektu  je tedy aplikace, která umožní vyhledávání na 
+flickru založené na klíčových slovech, stejně jako je tomu na Flickru nyní, ale navíc bude možné zadat 
+sekundární vyhledávání  na libovolná metadata.</p>
+					<p>Fotky, jejichž popis odpovídá klíčovému slovu. Fotky budou setříděné podle vzdálenosti ke zvoleným 
+metadatům.</p>
+          			
 				</div>
 			</div>
 			
 			<div id="col" class="noprint">
-        		<div id="col-in">
-          
+	       		<div id="col-in">
+	         
 		        	<h3><span>Jana Moudrá</span></h3>
 		        	<div id="about-me">
 		            	<p><strong>Email: </strong><a href="mailto:janamou@fit.cvut.cz">janamou@fit.cvut.cz</a><br />
@@ -38,16 +45,13 @@
 		          	<hr class="noscreen" />
 		                    
 		        </div>                
-      		</div>		
-						
-		</div>
-	
-	</div>
+	     	</div>
+	     		                                      
+        </div>        
+      </div>							
 	
 	<%@ include file="include/footer.jsp" %>
-	
-	
-	
+
 </div>
 	
 </body>

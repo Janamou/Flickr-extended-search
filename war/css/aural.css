@@ -1,0 +1,10 @@
+body {voice-family:paul,male; volume:loud; speech-rate:slow; richness:90; stress:20;}
+
+h1, h2, h3, h4, h5 {cue-before:url("ping.au");}
+
+p, table {pause:50ms;}
+
+em, q, cite, blockquote {pitch:medium; pitch-range:60; stress:60; richness:50;}
+
+strong {pitch:medium; pitch-range:60; stress:90; richness:90;}
+pre, code {speak-punctuation:code;}
