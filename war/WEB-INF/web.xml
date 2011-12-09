@@ -10,7 +10,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Index</servlet-name>
-		<url-pattern>/</url-pattern>
+		<url-pattern>/index</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>Search</servlet-name>
@@ -20,4 +20,13 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>Search</servlet-name>
 		<url-pattern>/search</url-pattern>
 	</servlet-mapping>
+		<servlet>
+		<servlet-name>About</servlet-name>
+		<servlet-class>com.moudra.vmw.flickr.servlets.AboutServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>About</servlet-name>
+		<url-pattern>/about</url-pattern>
+	</servlet-mapping>
+	
 </web-app>
