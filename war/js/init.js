@@ -2,13 +2,12 @@
   Created Jana Moudra, jana.moudra@gmail.com
  */
 
-var marker;
-var infoWindow;
+var marker, infoWindow, latlng, infoWindow, map, latitude, longitude;
 
 // Google maps
 function initialize() {
-	var latlng = new google.maps.LatLng(49.71, 15.29);
-	var myOptions = {
+	latlng = new google.maps.LatLng(49.71, 15.29);
+	myOptions = {
 		zoom : 4,
 		center : latlng,
 		mapTypeId : google.maps.MapTypeId.ROADMAP
@@ -17,14 +16,14 @@ function initialize() {
 	marker = new google.maps.Marker();
 	infoWindow = new google.maps.InfoWindow();
 
-	var map = new google.maps.Map(document.getElementById("map_canvas"),
+	map = new google.maps.Map(document.getElementById("map_canvas"),
 			myOptions);
 
 	google.maps.event.addListener(map, 'click', function(event) {
 		placeMarker(event.latLng, map);
 
-		var latitude = $("#latitude");
-		var longitude = $("#longitude");
+		latitude = $("#latitude");
+		longitude = $("#longitude");
 
 		latitude.val(event.latLng.lat());
 		longitude.val(event.latLng.lng());
@@ -44,6 +43,12 @@ function placeMarker(position, map) {
 	marker.setPosition(position);
 	marker.setMap(map);
 	// map.panTo(position);
+}
+
+function refreshMarker(){
+	var mylatlng = new google.maps.LatLng($('#latitude').val(), $('#longitude').val());
+	placeMarker(mylatlng, map);
+	infoWindow.open(map, marker);
 }
 
 $(document).ready(function() {
@@ -94,4 +99,6 @@ $(document).ready(function() {
 		
 		$(this).val(radiusValue);
 	});
+	
+	$('#latitude, #longitude').keyup(refreshMarker);
 });
