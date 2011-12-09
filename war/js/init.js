@@ -83,4 +83,15 @@ $(document).ready(function() {
 		
 		return false;
 	});
+	
+	$('#radius').blur(function() {
+		var radiusValue = $(this).val();
+		if (radiusValue > 32) {
+			radiusValue = 32;
+		} else if (radiusValue < 0) {
+			radiusValue = 0;
+		}
+		
+		$(this).val(radiusValue);
+	});
 });
