@@ -29,7 +29,9 @@ public class SearchServlet extends HttpServlet {
 	
 	static String text, minDate, maxDate, 
 	latitude, longitude, radius, rerankPriorityString, rerankPriorityGeo, 
-	rerankPriorityDate, rerankPrioritySize, rerankSizeType;
+	rerankPriorityDate, rerankPrioritySize, rerankSizeType, rerankAutor;
+	
+	static double distanceString, distanceGeo;
 	
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -70,6 +72,8 @@ public class SearchServlet extends HttpServlet {
 			rerankPriorityGeo = req.getParameter("rerank_priority_geo");
 			rerankPriorityDate = req.getParameter("rerank_priority_date");
 			rerankPrioritySize = req.getParameter("rerank_priority_size");
+			
+			rerankAutor = req.getParameter("rerank_string");
 			rerankSizeType = req.getParameter("rerank_size_type");
 				
 			processPrioritySize(rerankSizeType);
@@ -128,12 +132,15 @@ public class SearchServlet extends HttpServlet {
 			searchParams.setMedia(Constants.MEDIA_TYPE); //sets media searched
 			searchParams.setRadiusUnits(Constants.GEO_UNITS); //sets units for geo used
 			searchParams.setExtras(Extras.ALL_EXTRAS); //sets extra information used in search results
+			searchParams.setSort(SearchParameters.RELEVANCE);
 			
-			PhotoList images = iface.search(searchParams, 50, 0);
+			PhotoList images = iface.search(searchParams, 100, 0);
 			RankedPhoto[] rankedPhotos = generateRankedPhotos(images);
 			
 			req.setAttribute("images", rankedPhotos);	
-			req.setAttribute("size", images.size());	
+			req.setAttribute("size", images.size());
+			req.setAttribute("distanceString", distanceString);
+			req.setAttribute("distanceGeo", distanceGeo);
 			getServletContext().getRequestDispatcher("/WEB-INF/jsp/search-results.jsp").forward(req, resp);
 	        
 		} catch (Exception e) {
@@ -148,7 +155,7 @@ public class SearchServlet extends HttpServlet {
 				
 		for (int i = 0;i < photoArray.length; i++){
 			cost = computeCostForImage(images.get(i));
-			photoArray[i] = new RankedPhoto(images.get(i), cost);
+			photoArray[i] = new RankedPhoto(images.get(i), cost, distanceString, distanceGeo);
 		}
 		
 		Arrays.sort(photoArray, Collections.reverseOrder());
@@ -157,21 +164,23 @@ public class SearchServlet extends HttpServlet {
 	}
 	
 	private static double computeCostForImage(Photo image) {
-		double distanceString = Distances.computeLevensteinDistance("ahoj", "ahoj"); //TODO
-		double distanceGeo = Distances.computeGeoDistance(0, 0, 0, 0); //TODO
+		distanceString = Distances.computeLevensteinDistance(rerankAutor, image.getOwner().getUsername());		
+		distanceGeo = Distances.computeGeoDistance(Double.parseDouble(latitude), Double.parseDouble(longitude), image.getGeoData().getLatitude(), image.getGeoData().getLongitude()); 
 		//double distanceDate = Distances.computeDateDistance(new Date(0), new Date(0), new Date(0), true); //TODO
 		double distanceDate = 0.1; //TODO
 		int imageSide = Distances.setSide(image.getOriginalWidth(), image.getOriginalHeight(), rankAccordingWidth);
 		
-		int priorityString = 0; //TODO
-		int priorityGeo = 0; //TODO
+		int priorityString = Integer.parseInt(rerankPriorityString);
+		int priorityGeo = Integer.parseInt(rerankPriorityGeo); 
 		int priorityDate = 0; //TODO
 		int prioritySize = Integer.parseInt(rerankPrioritySize);
 		
 		double[] distances = Distances.setDistancesArray(distanceString, distanceGeo, distanceDate, imageSide);
 		int[] priorities = Distances.setPrioritiesArray(priorityString, priorityGeo, priorityDate, prioritySize);
+		System.out.println(image.getOwner().getUsername() + ", " + distanceGeo);
 		
 		return Distances.computeFinalImageCost(priorities, distances, imageAsc);
+
 	}
 
 	private static void processPrioritySize(String rerankSizeType){	

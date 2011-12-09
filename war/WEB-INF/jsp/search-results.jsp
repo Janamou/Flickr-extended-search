@@ -42,6 +42,9 @@
 					<c:forEach var="image" items="${images}">
 						<div class="image">
 						Cena: ${image.cost}
+						Autor: ${image.photo.owner.username}
+						Distance string: ${image.distanceString}
+						Distance geo: ${image.distanceGeo}
 							 <a class="image_" rel="image__" title="<c:if test="${image.photo.title != null}"><p>${image.photo.title}</p></c:if>" href="
 							 <c:choose>
 								 <c:when test="${image.photo.mediumUrl != null}">${image.photo.mediumUrl}</c:when>

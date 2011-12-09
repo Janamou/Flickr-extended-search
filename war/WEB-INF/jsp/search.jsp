@@ -200,7 +200,8 @@
 								<tr>
 									<th>Autor</th>
 									<td>
-										<label for="rerank_string">Autor</label>
+										<label for="rerank_string">Přezdívka autora</label>
+										<input type="text" name="rerank_string" id="rerank_string" />
 									</td>
 									<td>
 										<label for="rerank_priority_string">Priorita: </label>
@@ -220,9 +221,36 @@
 									</td>
 								</tr>
 								<tr>
+									<th>Velikost obrázku</th>
+									<td>
+										<label for="rerank_size_type">Typ třízení:</label>
+										<select name="rerank_size_type" id="rerank_size_type">
+											<option value="desc_width">Sestupně podle šířky</option>
+											<option value="asc_width">Vzestupně podle šířky</option>
+											<option value="desc_height">Sestupně podle výšky</option>
+											<option value="asc_height">Vzestupně podle výšky</option>
+										</select>
+									</td>
+									<td>
+										<label for="rerank_priority_size">Priorita: </label>
+										<select name="rerank_priority_size" id="rerank_priority_size">
+											<option value="0">0</option>
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="4">4</option>
+											<option value="5">5</option>
+											<option value="6">6</option>
+											<option value="7">7</option>
+											<option value="8">8</option>
+											<option value="9">9</option>
+											<option value="10">10</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
 									<th>GEO lokace</th>
 									<td>
-										<label for="rerank_geo">GEO</label>
 									</td>
 									<td>
 										<label for="rerank_priority_geo">Priorita: </label>
@@ -244,39 +272,10 @@
 								<tr>
 									<th>Datum</th>
 									<td>
-										<label for="rerank_date">Datum</label>
 									</td>
 									<td>
 										<label for="rerank_priority_date">Priorita: </label>
 										<select name="rerank_priority_date" id="rerank_priority_date">
-											<option value="0">0</option>
-											<option value="1">1</option>
-											<option value="2">2</option>
-											<option value="3">3</option>
-											<option value="4">4</option>
-											<option value="5">5</option>
-											<option value="6">6</option>
-											<option value="7">7</option>
-											<option value="8">8</option>
-											<option value="9">9</option>
-											<option value="10">10</option>
-										</select>
-									</td>
-								</tr>
-								<tr>
-									<th>Velikost obrázku</th>
-									<td>
-										<label for="rerank_size_type">Typ třízení:</label>
-										<select name="rerank_size_type" id="rerank_size_type">
-											<option value="desc_width">Sestupně podle šířky obrázku</option>
-											<option value="asc_width">Vzestupně podle šířky obrázku</option>
-											<option value="desc_height">Sestupně podle výšky obrázku</option>
-											<option value="asc_height">Vzestupně podle výšky obrázku</option>
-										</select>
-									</td>
-									<td>
-										<label for="rerank_priority_size">Priorita: </label>
-										<select name="rerank_priority_size" id="rerank_priority_size">
 											<option value="0">0</option>
 											<option value="1">1</option>
 											<option value="2">2</option>

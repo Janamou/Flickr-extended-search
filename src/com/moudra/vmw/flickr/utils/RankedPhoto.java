@@ -5,10 +5,14 @@ import com.gmail.yuyang226.flickr.photos.Photo;
 public class RankedPhoto implements Comparable<RankedPhoto> {
 	private Photo photo;
 	private double cost;
+	private double distanceGeo;
+	private double distanceString;
 	
-	public RankedPhoto(Photo photo, double cost) {
+	public RankedPhoto(Photo photo, double cost, double distanceString, double distanceGeo) {
 		this.photo = photo;
 		this.cost = cost;
+		this.distanceString = distanceString;
+		this.distanceGeo = distanceGeo;
 	}
 	
 	public Photo getPhoto() {
@@ -33,5 +37,21 @@ public class RankedPhoto implements Comparable<RankedPhoto> {
 		} else {
 			return -1;
 		}
+	}
+
+	public double getDistanceGeo() {
+		return distanceGeo;
+	}
+
+	public void setDistanceGeo(double distanceGeo) {
+		this.distanceGeo = distanceGeo;
+	}
+
+	public double getDistanceString() {
+		return distanceString;
+	}
+
+	public void setDistanceString(double distanceString) {
+		this.distanceString = distanceString;
 	}
 }

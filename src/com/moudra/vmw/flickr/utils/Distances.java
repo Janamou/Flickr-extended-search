@@ -7,8 +7,8 @@ public class Distances {
 	/**
 	 * Returns distance between two Strings.
 	 * 
-	 * @param inputText - text which was found in search results
 	 * @param desiredText - desired/searched text
+	 * @param inputText - text which was found in search results
 	 * */
 	public static double computeLevensteinDistance(String desiredText, String inputText){
 		if (inputText == null || desiredText == null) {
@@ -133,7 +133,9 @@ public class Distances {
 		double distanceDate = distances[2];
 		double distanceSize = distances[3];
 		
+		System.out.println("ahoj");
 		double imageSizeCost = (imageAsc)? 1/distanceSize : distanceSize;
+		System.out.println("vypis vzdalenosti: " + distanceString + ", vypis velikosti" + imageSizeCost);
 		
 		return priorityString/distanceString + priorityGeo/distanceGeo + priorityDate/distanceDate + prioritySize*imageSizeCost;		
 	}
@@ -144,7 +146,7 @@ public class Distances {
 	
 	public static double[] setDistancesArray(double distanceString, double distanceGeo, double distanceDate, int side){
 		double recomputedDistanceString = recomputeDistance(0.09, 0.1, distanceString);
-		double recomputedDistanceGeo = recomputeDistance(0.045, 0.1, distanceGeo);
+		double recomputedDistanceGeo = recomputeDistance(0.09, 0.1, distanceGeo);
 		double recomputedDistanceDate = recomputeDistance(0.09, 0.1, distanceDate);
 		double recomputedSide = recomputeDistance(0.00009, 0.1, side);
 		
