@@ -4,9 +4,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" media="screen,projection" type="text/css" href="css/main.css" />
-<link rel="stylesheet" media="print" type="text/css" href="css/print.css" />
-<link rel="stylesheet" media="aural" type="text/css" href="css/aural.css" />
+<link rel="stylesheet" media="screen,projection" type="text/css"
+	href="css/main.css" />
+<link rel="stylesheet" media="print" type="text/css"
+	href="css/print.css" />
+<link rel="stylesheet" media="aural" type="text/css"
+	href="css/aural.css" />
 <link rel="stylesheet"
 	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css"
 	type="text/css" media="all" />
@@ -34,89 +37,123 @@
 <title>Semestrální práce VMW - Flickr - metadata based reranking</title>
 </head>
 <body>
-<div id="main" class="box">
-	<%@ include file="include/header.jsp"%>
-	
-	<div id="page" class="box">
-		<div id="page-in" class="box">
-			<div id="content">							
-				<form action="search" method="post" id="search">
-					<div class="intro">
-					<div id="container-search">											
-						<div id="col_search" class="noprint">
-			        		<div id="col-in_search">			          
-					        	
-					        	<h3><span>Klíčová slova</span></h3>
-					        	<div id="keywords_">
-					            	<table>
-										<tbody>
-											<tr><!-- <th><label for="keywords">Klíčová slova:</label></th> -->
-												<td><input type="text" name="keywords" id="keywords" /></td>
-											</tr> 
-											<tr>
-												<td><select name="tags_mode" id="tags_mode">
-														<option value="any">Některá slova</option>
-														<option value="all">Všechna slova</option>
-													</select>
-												</td>
-											</tr> 
-											<tr>
-												<td>
-													<label for="text">text</label><input type="radio"
-													name="text_selection" id="text" value="text" checked="checked" />
-													<label for="tags">tagy</label><input type="radio"
-													name="text_selection" id="tags" value="tagy" />
-												</td>
+	<div id="main" class="box">
+		<%@ include file="include/header.jsp"%>
+
+		<div id="page" class="box">
+			<div id="page-in" class="box">
+				<div id="content">
+					<form action="search" method="post" id="search">
+						<div class="intro">
+							<div id="container-search">
+								<div id="col_search" class="noprint">
+									<div id="col-in_search">
+
+										<h3>
+											<span>Klíčová slova</span>
+										</h3>
+										<div id="keywords_">
+											<table>
+												<tbody>
+													<tr>
+														<!-- <th><label for="keywords">Klíčová slova:</label></th> -->
+														<td><input type="text" name="keywords" id="keywords" />
+														</td>
+													</tr>
+													<tr>
+														<td><select name="tags_mode" id="tags_mode">
+																<option value="any">Některá slova</option>
+																<option value="all">Všechna slova</option>
+														</select></td>
+													</tr>
+													<tr>
+														<td><label for="text">text</label><input type="radio"
+															name="text_selection" id="text" value="text"
+															checked="checked" /> <label for="tags">tagy</label><input
+															type="radio" name="text_selection" id="tags" value="tagy" />
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+
+										<h3>
+											<span>Vyhledávání podle data</span>
+										</h3>
+										<div id="date_">
+											<table>
+												<tbody>
+													<tr>
+														<td><label for="min_date">Od:</label> <input
+															type="text" name="min_date" id="min_date"
+															class="datepicker" />
+														</td>
+													</tr>
+													<tr>
+														<td><label for="max_date">Do:</label> <input
+															type="text" name="max_date" id="max_date"
+															class="datepicker" /></td>
+													</tr>
+													<tr>
+														<td><label for="upload_date">nahrání</label> <input
+															type="radio" name="date_selection" id="upload_date"
+															value="upload" checked="checked" /> <label
+															for="taken_date">pořízení</label> <input type="radio"
+															name="date_selection" id="taken_date" value="taken" /></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+
+										<h3>
+											<span>Vyhledávání podle lokace</span>
+										</h3>
+										<div id="lat-long_">
+											<table>
+												<tbody>
+													<tr>
+														<td><label for="latitude">Latitude:</label>
+														</td>
+														<td><input type="text" name="latitude" id="latitude" />
+														</td>
+													</tr>
+													<tr>
+														<td><label for="longitude">Longitude:</label>
+														</td>
+														<td><input type="text" name="longitude"
+															id="longitude" />
+														</td>
+													</tr>
+													<tr>
+														<td><label for="radius">Poloměr:</label>
+														</td>
+														<td><input type="text" name="radius" id="radius"
+															value="5" /> km</td>
+
+													<tr>
+														<td rowspan="2"><input type="text" name="number"
+															value="0"
+															style="width:50px;height:23px;font-weight:bold;" />
+														</td>
+													<td><input class="arrow-top" type="button" value=" /\ "															
+															style="font-size:7px;margin:0;padding:0;width:20px;height:13px;">
+														</td>
+												</tr>
+													<tr>
+													<td><input class="arrow-bottom" type=button value=" \/ "														
+															style="font-size:7px;margin:0;padding:0;width:20px;height:12px;">
+														</td>
+												</tr>	
+												
 											</tr>
-										</tbody>
-									</table>									
-					          	</div>
-					          						          	
-					          	<h3><span>Vyhledávání podle data</span></h3>
-					        	<div id="date_">
-					            	<table>
-										<tbody>
-											<tr>																							
-												<td><label for="min_date">Od:</label>
-													<input type="text" name="min_date" id="min_date" class="datepicker" /></td>
-											</tr> 
-											<tr>
-												<td><label for="max_date">Do:</label>
-												<input type="text" name="max_date" id="max_date" class="datepicker" /> </td>
-											</tr>
-											<tr>
-												<td>
-													<label for="upload_date">nahrání</label>
-													<input type="radio" name="date_selection" id="upload_date" value="upload" checked="checked" /> 
-													<label for="taken_date">pořízení</label>
-													<input type="radio" name="date_selection" id="taken_date" value="taken" />
-												</td>
-											</tr>
-										</tbody>
-									</table>								
-					          	</div>
-					          	
-					          	<h3><span>Vyhledávání podle lokace</span></h3>
-					        	<div id="lat-long_">
-					            	<table>
-										<tbody>
-											<tr>
-												<td><label for="latitude">Latitude:</label></td>
-												<td><input type="text" name="latitude" id="latitude" /></td>
-											</tr>
-											<tr>
-												<td><label for="longitude">Longitude:</label></td>
-												<td><input type="text" name="longitude" id="longitude" /></td>
-											</tr>
-											<tr>
-												<td><label for="radius">Poloměr:</label></td>
-												<td><input type="text" name="radius" id="radius" value="5" /> km</td>
-											</tr>
+													
 										</tbody>
 									</table>					
 					          	</div>
 					          	
-					          	<h3><span>Počet výsledků na stránku</span></h3>		
+					          	<h3>
+											<span>Počet výsledků na stránku</span>
+										</h3>		
 					          	<div id="results_">									
 									<!-- <label for="search_results">Počet výsledků na stránku</label> --> 
 									<select name="search_results" id="search_results">
@@ -166,7 +203,9 @@
 								</tr>
 							</tbody>
 						</table>-->
-						<h2><span>Vyhledávání s lokací</span></h2>						
+						<h2>
+									<span>Vyhledávání s lokací</span>
+								</h2>						
 						<p>Klikněte do mapy na místo pro získání dat lokace.</p>
 						<div id="map_canvas" style="width: 590px; height: 590px"></div>
 						<!-- <table>
@@ -192,7 +231,9 @@
 					
 					<div class="intro">
 					<div id="container-rerank" id="rerank_">
-					<h2><span>Reranking</span></h2>						
+					<h2>
+									<span>Reranking</span>
+								</h2>						
 						<p>Prosím nastavte prioritu jednotlivým rerankingům.</p>
 						<p>Ke každému rerankingu přiřaďte prioritu, kde 10 je <strong>maximální</strong> a 0 <strong>žádná</strong>.</p>
 						<table>
@@ -205,7 +246,8 @@
 									</td>
 									<td>
 										<label for="rerank_priority_string">Priorita: </label>
-										<select name="rerank_priority_string" id="rerank_priority_string">
+										<select name="rerank_priority_string"
+												id="rerank_priority_string">
 											<option value="0">0</option>
 											<option value="1">1</option>
 											<option value="2">2</option>
