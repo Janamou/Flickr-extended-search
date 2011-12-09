@@ -56,6 +56,7 @@ public class Distances {
 	 * 
 	 * */
 	public static double computeDateDistance(Date startFormDate, Date endFormDate, Date photoDate, boolean asc){
+		
 		if (photoDate == null) {
 		    throw new IllegalArgumentException("Date must not be null");
 		}
@@ -66,6 +67,7 @@ public class Distances {
 			if (startFormDate == null) {
 				cost = computeDateDistance(photoDate, new Date(0)); //we set boundaries from beginning
 			} else {
+				System.out.println("vypisuju");
 				cost = computeDateDistance(photoDate, startFormDate);
 			}			
 		} else {
@@ -80,7 +82,7 @@ public class Distances {
 	}
 	
 	private static long computeDateDistance(Date start, Date end){
-		return Math.abs(Long.parseLong(start.toString()) - Integer.parseInt(end.toString()));
+		return start.getTime() - end.getTime();
 	}	
 	
 	/**
@@ -136,6 +138,7 @@ public class Distances {
 		double imageSizeCost = (imageAsc)? 1/distanceSize : distanceSize;
 		double stringCost = 0;
 		double geoCost = 0;
+		double dateCost = 0;
 		
 		if (distanceString != 0){
 			stringCost = priorityString/distanceString;
@@ -145,7 +148,11 @@ public class Distances {
 			geoCost = priorityGeo/distanceGeo;
 		}
 		
-		return stringCost + geoCost + priorityDate/distanceDate + prioritySize*imageSizeCost;		
+		if (distanceDate != 0){
+			dateCost = priorityDate/distanceDate;
+		}
+		
+		return stringCost + geoCost + dateCost + prioritySize*imageSizeCost;		
 	}
 	
 	public static int[] setPrioritiesArray(int priorityString, int priorityGeo, int priorityDate, int prioritySize){

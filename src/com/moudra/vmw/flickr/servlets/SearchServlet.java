@@ -33,7 +33,6 @@ public class SearchServlet extends HttpServlet {
 	
 	static double distanceString, distanceGeo, distanceDate;
 	
-	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		try {
@@ -160,14 +159,11 @@ public class SearchServlet extends HttpServlet {
 			distance = Distances.computeGeoDistance(Double.parseDouble(latitude), Double.parseDouble(longitude), image.getGeoData().getLatitude(), image.getGeoData().getLongitude()); 
 			distanceGeo = Distances.recomputeDistance(0.09, 0.1, distance);
 		}
-		distanceGeo = 0.1;
+
 		if (!maxDate.equals("") || !minDate.equals("")){
 			distance = Distances.computeDateDistance(StringUtils.createDateFromString(minDate), StringUtils.createDateFromString(maxDate), image.getDateTaken(), true); //TODO
 			distanceDate = Distances.recomputeDistance(0.0009, 0.1, distance);
 		}
-		
-	
-		distanceDate = 0.1;
 		
 		side = Distances.setSide(image.getOriginalWidth(), image.getOriginalHeight(), rankAccordingWidth);		
 		double imageSide = Distances.recomputeDistance(0.00009, 0.1, side);

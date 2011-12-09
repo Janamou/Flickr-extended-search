@@ -58,7 +58,7 @@
 								<a class="moreinfo" href="#inline_content${status.index}"><img src="css/images/next.gif"/></a>							 
 							 </a>
 
-							 <div style="display: none">
+							 <div>
 	  							 <div class="img_properties" id="inline_content${status.index}" style='padding:10px; background:#fff;'>				    																		
 									<img class="preview" src="${image.photo.smallUrl}"  alt="" />
 									<c:if test="${image.photo.dateTaken != null}">Datum pořízení: ${image.photo.dateTaken}</c:if>														 									 									 
