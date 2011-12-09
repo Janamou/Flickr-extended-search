@@ -15,7 +15,7 @@ window.onload = setActive;
 
 <div id="header">
 	<div id="logo">
-		<h1><a href="/index">Flickr - Metadata based reranking</a></h1>
+		<h1><a href="/index">Flickr: Metadata-based reranking</a></h1>
 	</div>		   	   	  
 </div>
 

@@ -109,7 +109,7 @@ public class Distances {
 	 * @param distance - distance to be recomputed by function 
 	 * 
 	 * */
-	public static double recomputeDistance(double a, double b, double distance){
+	private static double recomputeDistance(double a, double b, double distance){
 		return a*distance + b;
 	}
 	
@@ -117,7 +117,7 @@ public class Distances {
 	 * Computes image cost. The bigger is, the better position of this image is.
 	 * 
 	 * */
-	public static double computeFinalImageCost(int[] priorities, double[] distances, int[] imageSize, boolean imageAsc){
+	public static double computeFinalImageCost(int[] priorities, double[] distances, boolean imageAsc){
 		if (priorities == null) {
 			throw new IllegalArgumentException("Priorities must not be null");
 		} else if (distances == null) {
@@ -131,8 +131,9 @@ public class Distances {
 		double distanceString = distances[0];
 		double distanceGeo = distances[1];
 		double distanceDate = distances[2];
+		double distanceSize = distances[3];
 		
-		double imageSizeCost = (imageAsc)? (1 / (imageSize[0] + 1/imageSize[1] + imageSize[0]*imageSize[1])): (imageSize[0] + 1/imageSize[1] + imageSize[0]*imageSize[1]);
+		double imageSizeCost = (imageAsc)? 1/distanceSize : distanceSize;
 		
 		return priorityString/distanceString + priorityGeo/distanceGeo + priorityDate/distanceDate + prioritySize*imageSizeCost;		
 	}
@@ -141,8 +142,13 @@ public class Distances {
 		return new int[] {priorityString, priorityGeo, priorityDate, prioritySize};
 	}
 	
-	public static double[] setDistancesArray(double distanceString, double distanceGeo, double distanceDate){
-		return new double[] {distanceString, distanceGeo, distanceDate};
+	public static double[] setDistancesArray(double distanceString, double distanceGeo, double distanceDate, int side){
+		double recomputedDistanceString = recomputeDistance(0.09, 0.1, distanceString);
+		double recomputedDistanceGeo = recomputeDistance(0.045, 0.1, distanceGeo);
+		double recomputedDistanceDate = recomputeDistance(0.09, 0.1, distanceDate);
+		double recomputedSide = recomputeDistance(0.00009, 0.1, side);
+		
+		return new double[] {recomputedDistanceString, recomputedDistanceGeo, recomputedDistanceDate, recomputedSide};
 	}
 	
 	/**
@@ -152,11 +158,19 @@ public class Distances {
 	 * @param rankAccordingWidth - if we are sorting according to width/height
 	 * @return int[] - array of two values.
 	 * */
-	public static int[] setSizeArray(int width, int height, boolean rankAccordingWidth){
+	public static int setSide(int width, int height, boolean rankAccordingWidth){
+		if (width == 0) {
+			width += 1;
+		}
+		
+		if (height == 0) {
+			height += 1;
+		}
+		
 		if (rankAccordingWidth) {
-			return new int[] {width, height};
+			return width;
 		} else {
-			return new int[] {height, width};
+			return height;
 		}		
 	}
 }

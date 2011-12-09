@@ -25,6 +25,13 @@ import com.moudra.vmw.flickr.utils.RankedPhoto;
 import com.moudra.vmw.flickr.utils.StringUtils;
 
 public class SearchServlet extends HttpServlet {
+	static boolean imageAsc, rankAccordingWidth;
+	
+	static String text, minDate, maxDate, 
+	latitude, longitude, radius, rerankPriorityString, rerankPriorityGeo, 
+	rerankPriorityDate, rerankPrioritySize, rerankSizeType;
+	
+	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		try {
@@ -44,32 +51,30 @@ public class SearchServlet extends HttpServlet {
 			Flickr flickr = new Flickr(Constants.API_KEY, Constants.API_SECRET, rest);
 			PhotosInterface iface = flickr.getPhotosInterface();
 			SearchParameters searchParams = new SearchParameters();
-						
+			
 			String tagsMode = req.getParameter("tags_mode");
-			String text = req.getParameter("keywords");
 			String textSelection = req.getParameter("text_selection");
-			
-			String minDate = req.getParameter("min_date");
-			String maxDate = req.getParameter("max_date");
 			String dateSelection = req.getParameter("date_selection");
-			
-			String latitude = req.getParameter("latitude");
-			String longitude = req.getParameter("longitude");
-			String radius = req.getParameter("radius");
 			String searchResults = req.getParameter("search_results");
 			
-			//Reranking options
-			boolean isRerankString = StringUtils.isStringTrue(req.getParameter("rerank_string"));
-			boolean isRerankGeo = StringUtils.isStringTrue(req.getParameter("rerank_geo"));
-			boolean isRerankDate = StringUtils.isStringTrue(req.getParameter("rerank_date"));
-			boolean isRerankSize = StringUtils.isStringTrue(req.getParameter("rerank_size"));
+			text = req.getParameter("keywords");	
 			
-			String rerankPriorityString = req.getParameter("rerank_priority_string");
-			String rerankPriorityGeo = req.getParameter("rerank_priority_geo");
-			String rerankPriorityDate = req.getParameter("rerank_priority_date");
-			String rerankPrioritySize = req.getParameter("rerank_priority_size");
+			minDate = req.getParameter("min_date");
+			maxDate = req.getParameter("max_date");
+						
+			latitude = req.getParameter("latitude");
+			longitude = req.getParameter("longitude");
+			radius = req.getParameter("radius");
+						
+			rerankPriorityString = req.getParameter("rerank_priority_string");
+			rerankPriorityGeo = req.getParameter("rerank_priority_geo");
+			rerankPriorityDate = req.getParameter("rerank_priority_date");
+			rerankPrioritySize = req.getParameter("rerank_priority_size");
+			rerankSizeType = req.getParameter("rerank_size_type");
+				
+			processPrioritySize(rerankSizeType);
 			
-			int perPage = 50;
+			int perPage = 100;
 			
 			if(textSelection.equals("text")){
 				if(!StringUtils.isStringEmpty(text)){
@@ -136,17 +141,52 @@ public class SearchServlet extends HttpServlet {
 		}
 	}
 	
-	private RankedPhoto[] generateRankedPhotos(PhotoList images){
+	private static RankedPhoto[] generateRankedPhotos(PhotoList images){
+		double cost = 0;
+		
 		RankedPhoto[] photoArray = new RankedPhoto[images.size()];
-		
-		double cost = 0; //TODO
-		
+				
 		for (int i = 0;i < photoArray.length; i++){
-			photoArray[i] = new RankedPhoto(images.get(i), Math.random());
+			cost = computeCostForImage(images.get(i));
+			photoArray[i] = new RankedPhoto(images.get(i), cost);
 		}
 		
 		Arrays.sort(photoArray, Collections.reverseOrder());
 		
 		return photoArray;
+	}
+	
+	private static double computeCostForImage(Photo image) {
+		double distanceString = Distances.computeLevensteinDistance("ahoj", "ahoj"); //TODO
+		double distanceGeo = Distances.computeGeoDistance(0, 0, 0, 0); //TODO
+		//double distanceDate = Distances.computeDateDistance(new Date(0), new Date(0), new Date(0), true); //TODO
+		double distanceDate = 0.1; //TODO
+		int imageSide = Distances.setSide(image.getOriginalWidth(), image.getOriginalHeight(), rankAccordingWidth);
+		
+		int priorityString = 0; //TODO
+		int priorityGeo = 0; //TODO
+		int priorityDate = 0; //TODO
+		int prioritySize = Integer.parseInt(rerankPrioritySize);
+		
+		double[] distances = Distances.setDistancesArray(distanceString, distanceGeo, distanceDate, imageSide);
+		int[] priorities = Distances.setPrioritiesArray(priorityString, priorityGeo, priorityDate, prioritySize);
+		
+		return Distances.computeFinalImageCost(priorities, distances, imageAsc);
+	}
+
+	private static void processPrioritySize(String rerankSizeType){	
+		if (rerankSizeType.equals("desc_width")) {
+			imageAsc = false;
+			rankAccordingWidth = true;
+		} else if (rerankSizeType.equals("asc_width")) {
+			imageAsc = true;
+			rankAccordingWidth = true;
+		} else if (rerankSizeType.equals("desc_height")) {
+			imageAsc = false;
+			rankAccordingWidth = false;
+		} else {
+			imageAsc = true;
+			rankAccordingWidth = false;
+		}
 	}
 }
