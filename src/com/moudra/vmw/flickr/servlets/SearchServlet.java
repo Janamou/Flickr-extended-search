@@ -31,7 +31,7 @@ public class SearchServlet extends HttpServlet {
 	latitude, longitude, radius, rerankPriorityString, rerankPriorityGeo, 
 	rerankPriorityDate, rerankPrioritySize, rerankSizeType, rerankAutor;
 	
-	static double distanceString, distanceGeo;
+	static double distanceString, distanceGeo, distanceDate;
 	
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -56,7 +56,6 @@ public class SearchServlet extends HttpServlet {
 			
 			String tagsMode = req.getParameter("tags_mode");
 			String textSelection = req.getParameter("text_selection");
-			String dateSelection = req.getParameter("date_selection");
 			String searchResults = req.getParameter("search_results");
 			
 			text = req.getParameter("keywords");	
@@ -75,10 +74,6 @@ public class SearchServlet extends HttpServlet {
 			
 			rerankAutor = req.getParameter("rerank_string");
 			rerankSizeType = req.getParameter("rerank_size_type");
-				
-			processPrioritySize(rerankSizeType);
-			
-			int perPage = 100;
 			
 			if(textSelection.equals("text")){
 				if(!StringUtils.isStringEmpty(text)){
@@ -95,22 +90,12 @@ public class SearchServlet extends HttpServlet {
 				searchParams.setTagMode(tagsMode);
 			}
 			
-			if(dateSelection.equals("upload")){
-				if(!StringUtils.isStringEmpty(minDate)){
-					searchParams.setMinUploadDate(StringUtils.createDateFromString(minDate));
-				}
-				
-				if(!StringUtils.isStringEmpty(maxDate)){
-					searchParams.setMaxUploadDate(StringUtils.createDateFromString(maxDate));
-				}
-			} else {
-				if(!StringUtils.isStringEmpty(minDate)){
-					searchParams.setMinTakenDate(StringUtils.createDateFromString(minDate));
-				}
-				
-				if(!StringUtils.isStringEmpty(maxDate)){
-					searchParams.setMaxTakenDate(StringUtils.createDateFromString(maxDate));
-				}
+			if(!StringUtils.isStringEmpty(minDate)){
+				searchParams.setMinTakenDate(StringUtils.createDateFromString(minDate));
+			}
+			
+			if(!StringUtils.isStringEmpty(maxDate)){
+				searchParams.setMaxTakenDate(StringUtils.createDateFromString(maxDate));
 			}
 						
 			if(!StringUtils.isStringEmpty(latitude)){
@@ -125,16 +110,14 @@ public class SearchServlet extends HttpServlet {
 				searchParams.setRadius(Integer.parseInt(radius));
 			}
 			
-			if(!StringUtils.isStringEmpty(searchResults)){
-				perPage = Integer.parseInt(searchResults);
-			}
+			processPrioritySize(rerankSizeType);
 			
 			searchParams.setMedia(Constants.MEDIA_TYPE); //sets media searched
 			searchParams.setRadiusUnits(Constants.GEO_UNITS); //sets units for geo used
 			searchParams.setExtras(Extras.ALL_EXTRAS); //sets extra information used in search results
 			searchParams.setSort(SearchParameters.RELEVANCE);
 			
-			PhotoList images = iface.search(searchParams, 100, 0);
+			PhotoList images = iface.search(searchParams, Integer.parseInt(searchResults), 0);
 			RankedPhoto[] rankedPhotos = generateRankedPhotos(images);
 			
 			req.setAttribute("images", rankedPhotos);	
@@ -155,7 +138,7 @@ public class SearchServlet extends HttpServlet {
 				
 		for (int i = 0;i < photoArray.length; i++){
 			cost = computeCostForImage(images.get(i));
-			photoArray[i] = new RankedPhoto(images.get(i), cost, distanceString, distanceGeo);
+			photoArray[i] = new RankedPhoto(images.get(i), cost, distanceString, distanceGeo, distanceDate);
 		}
 		
 		Arrays.sort(photoArray, Collections.reverseOrder());
@@ -164,23 +147,40 @@ public class SearchServlet extends HttpServlet {
 	}
 	
 	private static double computeCostForImage(Photo image) {
-		distanceString = Distances.computeLevensteinDistance(rerankAutor, image.getOwner().getUsername());		
-		distanceGeo = Distances.computeGeoDistance(Double.parseDouble(latitude), Double.parseDouble(longitude), image.getGeoData().getLatitude(), image.getGeoData().getLongitude()); 
-		//double distanceDate = Distances.computeDateDistance(new Date(0), new Date(0), new Date(0), true); //TODO
-		double distanceDate = 0.1; //TODO
-		int imageSide = Distances.setSide(image.getOriginalWidth(), image.getOriginalHeight(), rankAccordingWidth);
+		double distance = 0;
+		double side = 0;
+		distanceString = distanceGeo = distanceDate = 0;
+		
+		if (!rerankAutor.equals("")){
+			distance = Distances.computeLevensteinDistance(rerankAutor, image.getOwner().getUsername());					
+			distanceString = Distances.recomputeDistance(0.09, 0.1, distance);
+		}
+		
+		if (!latitude.equals("") && !longitude.equals("")){
+			distance = Distances.computeGeoDistance(Double.parseDouble(latitude), Double.parseDouble(longitude), image.getGeoData().getLatitude(), image.getGeoData().getLongitude()); 
+			distanceGeo = Distances.recomputeDistance(0.09, 0.1, distance);
+		}
+		distanceGeo = 0.1;
+		if (!maxDate.equals("") || !minDate.equals("")){
+			distance = Distances.computeDateDistance(StringUtils.createDateFromString(minDate), StringUtils.createDateFromString(maxDate), image.getDateTaken(), true); //TODO
+			distanceDate = Distances.recomputeDistance(0.0009, 0.1, distance);
+		}
+		
+	
+		distanceDate = 0.1;
+		
+		side = Distances.setSide(image.getOriginalWidth(), image.getOriginalHeight(), rankAccordingWidth);		
+		double imageSide = Distances.recomputeDistance(0.00009, 0.1, side);
 		
 		int priorityString = Integer.parseInt(rerankPriorityString);
 		int priorityGeo = Integer.parseInt(rerankPriorityGeo); 
-		int priorityDate = 0; //TODO
+		int priorityDate = Integer.parseInt(rerankPriorityDate);
 		int prioritySize = Integer.parseInt(rerankPrioritySize);
 		
 		double[] distances = Distances.setDistancesArray(distanceString, distanceGeo, distanceDate, imageSide);
 		int[] priorities = Distances.setPrioritiesArray(priorityString, priorityGeo, priorityDate, prioritySize);
-		System.out.println(image.getOwner().getUsername() + ", " + distanceGeo);
 		
 		return Distances.computeFinalImageCost(priorities, distances, imageAsc);
-
 	}
 
 	private static void processPrioritySize(String rerankSizeType){	

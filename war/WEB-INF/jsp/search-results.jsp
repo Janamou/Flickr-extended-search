@@ -4,8 +4,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<!-- 
-<link rel="stylesheet" media="screen,projection" type="text/css" href="css/main.css" />
+ 
+<!--<link rel="stylesheet" media="screen,projection" type="text/css" href="css/main.css" />
 <link rel="stylesheet" media="print" type="text/css" href="css/print.css" />
 <link rel="stylesheet" media="aural" type="text/css" href="css/aural.css" /> -->
 
@@ -58,7 +58,6 @@
 								 <!--  <h3><c:if test="${image.photo.title != null}">${image.photo.title}</c:if></h3>-->
 								 <p><c:if test="${image.photo.description != null}">${image.photo.description}</c:if></p>
 								 <p>
-								 	<c:if test="${image.photo.dateAdded != null}">Datum přidání: ${image.photo.dateAdded}, </c:if>
 								 	<c:if test="${image.photo.dateTaken != null}">Datum pořízení: ${image.photo.dateTaken}</c:if>
 								 </p>
 								 <p>

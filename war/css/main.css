@@ -163,7 +163,7 @@ code, kbd, samp {font-family:monospace; font-size:110%;}
     #lat-long_ input#radius {width: 100px;}
     #date_ input#min_date, #date_ input#max_date {width: 168px;}
     #rerank_ {clear:both; margin:0; padding:20px; background:url("images/content_article_bg.jpg") 0 0 no-repeat;}
-    
+    select#search_results {width: 100%;}
     /* Search - results*/
     .intro_results {width: 820px; height: 600px; clear:both; margin:0; padding:20px; background:url("images/content_article_bg2.jpg") 0 0 no-repeat;}
     #image_hidden {display: none;}  

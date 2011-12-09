@@ -80,7 +80,7 @@ public class Distances {
 	}
 	
 	private static long computeDateDistance(Date start, Date end){
-		return Long.parseLong(start.toString()) - Integer.parseInt(end.toString());
+		return Math.abs(Long.parseLong(start.toString()) - Integer.parseInt(end.toString()));
 	}	
 	
 	/**
@@ -109,7 +109,7 @@ public class Distances {
 	 * @param distance - distance to be recomputed by function 
 	 * 
 	 * */
-	private static double recomputeDistance(double a, double b, double distance){
+	public static double recomputeDistance(double a, double b, double distance){
 		return a*distance + b;
 	}
 	
@@ -133,28 +133,31 @@ public class Distances {
 		double distanceDate = distances[2];
 		double distanceSize = distances[3];
 		
-		System.out.println("ahoj");
 		double imageSizeCost = (imageAsc)? 1/distanceSize : distanceSize;
-		System.out.println("vypis vzdalenosti: " + distanceString + ", vypis velikosti" + imageSizeCost);
+		double stringCost = 0;
+		double geoCost = 0;
 		
-		return priorityString/distanceString + priorityGeo/distanceGeo + priorityDate/distanceDate + prioritySize*imageSizeCost;		
+		if (distanceString != 0){
+			stringCost = priorityString/distanceString;
+		}
+		
+		if (distanceGeo != 0){
+			geoCost = priorityGeo/distanceGeo;
+		}
+		
+		return stringCost + geoCost + priorityDate/distanceDate + prioritySize*imageSizeCost;		
 	}
 	
 	public static int[] setPrioritiesArray(int priorityString, int priorityGeo, int priorityDate, int prioritySize){
 		return new int[] {priorityString, priorityGeo, priorityDate, prioritySize};
 	}
 	
-	public static double[] setDistancesArray(double distanceString, double distanceGeo, double distanceDate, int side){
-		double recomputedDistanceString = recomputeDistance(0.09, 0.1, distanceString);
-		double recomputedDistanceGeo = recomputeDistance(0.09, 0.1, distanceGeo);
-		double recomputedDistanceDate = recomputeDistance(0.09, 0.1, distanceDate);
-		double recomputedSide = recomputeDistance(0.00009, 0.1, side);
-		
-		return new double[] {recomputedDistanceString, recomputedDistanceGeo, recomputedDistanceDate, recomputedSide};
+	public static double[] setDistancesArray(double distanceString, double distanceGeo, double distanceDate, double side){
+		return new double[] {distanceString, distanceGeo, distanceDate, side};
 	}
 	
 	/**
-	 * Returns array of image dimensions. 
+	 * Returns array of corrected image dimensions. 
 	 * @param width - width of image
 	 * @param height - height of image
 	 * @param rankAccordingWidth - if we are sorting according to width/height

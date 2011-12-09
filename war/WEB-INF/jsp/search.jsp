@@ -93,13 +93,6 @@
 															type="text" name="max_date" id="max_date"
 															class="datepicker" /></td>
 													</tr>
-													<tr>
-														<td><label for="upload_date">nahrání</label> <input
-															type="radio" name="date_selection" id="upload_date"
-															value="upload" checked="checked" /> <label
-															for="taken_date">pořízení</label> <input type="radio"
-															name="date_selection" id="taken_date" value="taken" /></td>
-													</tr>
 												</tbody>
 											</table>
 										</div>
@@ -141,10 +134,10 @@
 					          	</div>
 					          	
 					          	<h3>
-											<span>Počet výsledků na stránku</span>
+											<span>Maximální počet výsledků</span>
 										</h3>		
 					          	<div id="results_">									
-									<!-- <label for="search_results">Počet výsledků na stránku</label> --> 
+									<!-- <label for="search_results">Maximální počet výsledků</label> --> 
 									<select name="search_results" id="search_results">
 										<option value="10">10</option>
 										<option value="25">25</option>

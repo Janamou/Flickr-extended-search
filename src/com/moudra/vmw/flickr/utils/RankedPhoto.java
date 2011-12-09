@@ -7,12 +7,14 @@ public class RankedPhoto implements Comparable<RankedPhoto> {
 	private double cost;
 	private double distanceGeo;
 	private double distanceString;
+	private double distanceDate;
 	
-	public RankedPhoto(Photo photo, double cost, double distanceString, double distanceGeo) {
+	public RankedPhoto(Photo photo, double cost, double distanceString, double distanceGeo, double distanceDate) {
 		this.photo = photo;
 		this.cost = cost;
 		this.distanceString = distanceString;
 		this.distanceGeo = distanceGeo;
+		this.distanceDate = distanceDate;
 	}
 	
 	public Photo getPhoto() {
@@ -53,5 +55,13 @@ public class RankedPhoto implements Comparable<RankedPhoto> {
 
 	public void setDistanceString(double distanceString) {
 		this.distanceString = distanceString;
+	}
+
+	public double getDistanceDate() {
+		return distanceDate;
+	}
+
+	public void setDistanceDate(double distanceDate) {
+		this.distanceDate = distanceDate;
 	}
 }
