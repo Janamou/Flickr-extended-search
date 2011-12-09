@@ -69,7 +69,7 @@ $(document).ready(function() {
 	$('.arrow-top').click(function() {
 		var radiusValue = $('input#radius').val();
 		if (radiusValue < 32) {
-			$('input#radius').val(radiusValue++);
+			$('input#radius').val(++radiusValue);
 		}
 		
 		return false;
@@ -78,7 +78,7 @@ $(document).ready(function() {
 	$('.arrow-bottom').click(function() {
 		var radiusValue = $('input#radius').val();
 		if (radiusValue > 0) {
-			$('input#radius').val(radiusValue--);
+			$('input#radius').val(--radiusValue);
 		}
 		
 		return false;

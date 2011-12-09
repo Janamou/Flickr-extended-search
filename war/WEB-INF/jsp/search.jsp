@@ -29,7 +29,6 @@
 	type="text/javascript"></script>
 <script src="js/jquery.ui.datepicker-cs.js" type="text/javascript"></script>
 <script src="js/jquery.mousewheel.js" type="text/javascript"></script>
-<script src="js/ui.spinner.js" type="text/javascript"></script>
 <script src="js/init.js" type="text/javascript"></script>
 <script type="text/javascript"
 	src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
@@ -128,23 +127,13 @@
 														<td><label for="radius">Poloměr:</label>
 														</td>
 														<td><input type="text" name="radius" id="radius"
-															value="5" /> km</td>
-
-													<tr>
-														<td rowspan="2"><input type="text" name="number"
-															value="0"
-															style="width:50px;height:23px;font-weight:bold;" />
-														</td>
-													<td><input class="arrow-top" type="button" value=" /\ "															
+															value="5" />
+															<input class="arrow-top" type="button" value=" /\ "															
 															style="font-size:7px;margin:0;padding:0;width:20px;height:13px;">
-														</td>
-												</tr>
-													<tr>
-													<td><input class="arrow-bottom" type=button value=" \/ "														
-															style="font-size:7px;margin:0;padding:0;width:20px;height:12px;">
-														</td>
-												</tr>	
-												
+															<input class="arrow-bottom" type=button value=" \/ "														
+															style="font-size:7px;margin:0;padding:0;width:20px;height:12px;">													
+														km</td>
+													<tr>												
 											</tr>
 													
 										</tbody>
