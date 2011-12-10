@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
@@ -18,6 +20,8 @@ import com.gmail.yuyang226.flickr.photos.Photo;
 import com.gmail.yuyang226.flickr.photos.PhotoList;
 import com.gmail.yuyang226.flickr.photos.PhotosInterface;
 import com.gmail.yuyang226.flickr.photos.SearchParameters;
+import com.google.appengine.api.quota.QuotaService;
+import com.google.appengine.api.quota.QuotaServiceFactory;
 import com.google.appengine.repackaged.com.google.common.collect.Iterables;
 import com.moudra.vmw.flickr.utils.Constants;
 import com.moudra.vmw.flickr.utils.Distances;
@@ -25,6 +29,8 @@ import com.moudra.vmw.flickr.utils.RankedPhoto;
 import com.moudra.vmw.flickr.utils.StringUtils;
 
 public class SearchServlet extends HttpServlet {
+	protected static final Logger logger = Logger.getLogger(SearchServlet.class.getName());
+	
 	static boolean imageAsc, rankAccordingWidth;
 	
 	static String text, minDate, maxDate, 
@@ -109,15 +115,37 @@ public class SearchServlet extends HttpServlet {
 				searchParams.setRadius(Integer.parseInt(radius));
 			}
 			
-			processPrioritySize(rerankSizeType);
-			
 			searchParams.setMedia(Constants.MEDIA_TYPE); //sets media searched
 			searchParams.setRadiusUnits(Constants.GEO_UNITS); //sets units for geo used
 			searchParams.setExtras(Extras.ALL_EXTRAS); //sets extra information used in search results
 			searchParams.setSort(SearchParameters.RELEVANCE);
 			
+			//quota
+			QuotaService qs = QuotaServiceFactory.getQuotaService();
+			long startCPU = 0, startAPI = 0;
+			if(qs.supports(QuotaService.DataType.CPU_TIME_IN_MEGACYCLES)) {
+				startAPI = qs.getApiTimeInMegaCycles();
+				startCPU = qs.getCpuTimeInMegaCycles();
+			} else {
+				startCPU = System.currentTimeMillis();
+			}
+			
 			PhotoList images = iface.search(searchParams, Integer.parseInt(searchResults), 0);
+			processPrioritySize(rerankSizeType);			
 			RankedPhoto[] rankedPhotos = generateRankedPhotos(images);
+			
+			if(qs.supports(QuotaService.DataType.CPU_TIME_IN_MEGACYCLES)) {
+				long endCPU = qs.getCpuTimeInMegaCycles();
+				long endAPI = qs.getApiTimeInMegaCycles();
+				double cpuSeconds = qs.convertMegacyclesToCpuSeconds(endCPU - startCPU);
+				double apiSeconds = qs.convertMegacyclesToCpuSeconds(endAPI - startAPI);
+	
+				logger.log(Level.WARNING,"Search: cpu = " + cpuSeconds + ", api = " + apiSeconds + ", sum = " + (cpuSeconds + apiSeconds));
+			} else {
+				long endCPU = System.currentTimeMillis();
+			   double cpuSeconds = (endCPU - startCPU);
+			   System.out.println("Search: cpu = " + cpuSeconds);
+			}
 			
 			req.setAttribute("images", rankedPhotos);	
 			req.setAttribute("size", images.size());
