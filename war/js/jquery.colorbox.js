@@ -1,8 +1,8 @@
-// ColorBox v1.3.18 - a full featured, light-weight, customizable lightbox based on jQuery 1.3+
-// Copyright (c) 2011 Jack Moore - jack@colorpowered.com
-// Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+// ColorBox v1.4.0 - a full featured, light-weight, customizable lightbox based on jQuery 1.3+
+// Copyright (c) 2011 Jack Moore - jacklmoore.com
+// License: http://www.opensource.org/licenses/mit-license.php
 
-(function ($, document, window) {
+;(function ($, document, window) {
     var
     // Default settings object.	
     // See http://jacklmoore.com/colorbox for details.
@@ -27,14 +27,15 @@
         href: false,
         title: false,
         rel: false,
-        opacity: 0.9,
+        opacity: 0.2,
         preloading: true,
-        current: "image {current} of {total}",
+        current: "{current}/{total}",
         previous: "previous",
         next: "next",
         close: "close",
         open: false,
         returnFocus: true,
+        reposition: true,
         loop: true,
         slideshow: false,
         slideshowAuto: true,
@@ -119,17 +120,17 @@
     
 	// Convience function for creating new jQuery objects
     function $tag(tag, id, css) {
-        var element = document.createElement(tag);
-        
-        if (id) {
-            element.id = prefix + id;
-        }
-        
-        if (css) {
-            element.style.cssText = css;
-        }
-        
-        return $(element);
+		var element = document.createElement(tag);
+
+		if (id) {
+			element.id = prefix + id;
+		}
+
+		if (css) {
+			element.style.cssText = css;
+		}
+		
+		return $(element);
     }
 
 	// Determine the next and previous members in a group.
@@ -195,7 +196,7 @@
 					.text(settings.slideshowStop)
 					.unbind(click)
 					.bind(event_complete, function () {
-						if (index < $related.length - 1 || settings.loop) {
+						if (settings.loop || $related[index + 1]) {
 							timeOut = setTimeout(publicMethod.next, settings.slideshowSpeed);
 						}
 					})
@@ -327,8 +328,7 @@
 		
 		$this.each(function () {
 			$.data(this, colorbox, $.extend({}, $.data(this, colorbox) || defaults, options));
-			$(this).addClass(boxElement);
-		});
+		}).addClass(boxElement);
 		
         if (($.isFunction(options.open) && options.open.call($this)) || options.open) {
 			launch($this[0]);
@@ -385,7 +385,7 @@
 			
 			$loadingBay = $tag(div, false, 'position:absolute; width:9999px; visibility:hidden; display:none');
 			
-			$('body').prepend($overlay, $box.append($wrap, $loadingBay));
+			$('body').append($overlay, $box.append($wrap, $loadingBay));
 			
 			// Cache values needed for size calculations
 			interfaceHeight = $topBorder.height() + $bottomBorder.height() + $content.outerHeight(true) - $content.height();//Subtraction needed for IE6
@@ -501,14 +501,16 @@
 				// shrink the wrapper down to exactly the size of colorbox to avoid a bug in IE's iframe implementation.
 				$wrap[0].style.width = (settings.w + loadedWidth + interfaceWidth) + "px";
 				$wrap[0].style.height = (settings.h + loadedHeight + interfaceHeight) + "px";
-				
+                
+                if (settings.reposition) {
+	                setTimeout(function () {  // small delay before binding onresize due to an IE8 bug.
+	                    $window.bind('resize.' + prefix, publicMethod.position);
+	                }, 1);
+	            }
+
 				if (loadedCallback) {
 					loadedCallback();
 				}
-                
-                setTimeout(function () {  // small delay before binding onresize due to an IE8 bug.
-                    $window.bind('resize.' + prefix, publicMethod.position);
-                }, 1);
 			},
 			step: function () {
 				modalDimensions(this);
@@ -633,7 +635,7 @@
 						getIndex(-1),
 						getIndex(1)
 					];
-					while ((i = $related[preload.pop()])) {
+					while (i = $related[preload.pop()]) {
 						src = $.data(i, colorbox).href || i.href;
 						if ($.isFunction(src)) {
 							src = src.call(i);
@@ -750,9 +752,9 @@
 			prep(" ");
 		} else if (settings.html) {
 			prep(settings.html);
-		} else if (href) {					
+		} else if (isImage(href)) {
 			$(photo = new Image())
-			.addClass(prefix + 'Photo')	
+			.addClass(prefix + 'Photo')
 			.error(function () {
 				settings.title = false;
 				prep($tag(div, 'Error').text('This image could not be loaded'));
@@ -780,7 +782,7 @@
 					photo.style.marginTop = Math.max(settings.h - photo.height, 0) / 2 + 'px';
 				}
 				
-				if ($related[1] && (index < $related.length - 1 || settings.loop)) {
+				if ($related[1] && (settings.loop || $related[index + 1])) {
 					photo.style.cursor = 'pointer';
 					photo.onclick = function () {
                         publicMethod.next();
@@ -799,19 +801,23 @@
 			setTimeout(function () { // A pause because Opera 10.6+ will sometimes not run the onload function otherwise.
 				photo.src = href;
 			}, 1);
-		} 
+		} else if (href) {
+			$loadingBay.load(href, settings.data, function (data, status, xhr) {
+				prep(status === 'error' ? $tag(div, 'Error').text('Request unsuccessful: ' + xhr.statusText) : $(this).contents());
+			});
+		}
 	};
         
 	// Navigates to the next page/image in a set.
 	publicMethod.next = function () {
-		if (!active && $related[1] && (index < $related.length - 1 || settings.loop)) {
+		if (!active && $related[1] && (settings.loop || $related[index + 1])) {
 			index = getIndex(1);
 			publicMethod.load();
 		}
 	};
 	
 	publicMethod.prev = function () {
-		if (!active && $related[1] && (index || settings.loop)) {
+		if (!active && $related[1] && (settings.loop || index)) {
 			index = getIndex(-1);
 			publicMethod.load();
 		}

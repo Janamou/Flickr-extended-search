@@ -34,7 +34,7 @@ metadatům.</p>
 	         
 		        	<h3><span>Jana Moudrá</span></h3>
 		        	<div id="about-me">
-		            	<p><strong>Email: </strong><a href="mailto:janamou@fit.cvut.cz">janamou@fit.cvut.cz</a><br />
+		            	<p><strong>Email: </strong><a href="mailto:moudrjan@fit.cvut.cz">janamou@fit.cvut.cz</a><br />
 		            	FIT ČVUT</p>
 		          	</div>
 		          	<h3><span>Aneta Svobodová</span></h3>
