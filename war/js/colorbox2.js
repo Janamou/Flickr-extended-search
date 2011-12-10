@@ -6,7 +6,7 @@ jQuery(document).ready(function($){
 	
   $(".gallery").each(function(index, obj){
 		galleryid2 = Math.floor(Math.random()*10000);
-		$(obj).find("a.moreinfo").colorbox({rel:galleryid2, inline:true, width:"650px", height:"400px"});
+		$(obj).find("a.moreinfo").colorbox({rel:galleryid2, inline:true, width:"800px", height:"500px"});
 	});
 	
 	$("a[href$='.jpg']").colorbox({maxWidth:"90%", maxHeight:"90%"});

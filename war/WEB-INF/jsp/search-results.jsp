@@ -36,7 +36,7 @@
 					<p>Nalezeno: ${size} výsledků.</p>					
 					<c:forEach var="image" items="${images}" varStatus="status">
 						<div class="image">							
-
+						
 							<a class="image_" rel="image_rel" href="
 								<c:choose>
 									<c:when test="${image.photo.largeUrl != null}">${image.photo.largeUrl}</c:when>
@@ -55,7 +55,9 @@
 	  							 <div class="img_properties" id="inline_content${status.index}" style='padding:10px; background:#fff;'>				    																		
 									<img class="preview" src="${image.photo.smallUrl}"  alt="" />
 									<table class="info_table">
+										<tr><td class="bold">Celková cena (reranking): </td><td>${image.cost}</td></tr>
 										<c:if test="${image.photo.title != null}"><tr><td class="bold">Titulek: </td><td>${image.photo.title}</td></tr></c:if>
+										<c:if test="${image.photo.owner.username != null}"><tr><td class="bold">Autor: </td><td>${image.photo.owner.username}</td></tr></c:if>
 										<c:if test="${image.photo.description != null}"><tr><td class="bold">Popis: </td><td>${image.photo.description}</td></tr></c:if>
 										<c:if test="${image.photo.dateAdded != null}"><tr><td class="bold">Datum přidání: </td><td>${image.photo.dateAdded}</td></tr></c:if>
 										<c:if test="${image.photo.dateTaken != null}"><tr><td class="bold">Datum pořízení: </td><td>${image.photo.dateTaken}</td></tr></c:if>
