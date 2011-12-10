@@ -38,12 +38,9 @@
 						<div class="image">							
 						
 							<a class="image_" rel="image_rel" href="
-								<c:choose>
-									<c:when test="${image.photo.largeUrl != null}">${image.photo.largeUrl}</c:when>
-									<c:otherwise>									
-										<c:when test="${image.photo.mediumUrl != null}">${image.photo.mediumUrl}</c:when>
-										<c:otherwise>${image.photo.smallUrl}</c:otherwise>
-									</c:otherwise>
+								<c:choose>																
+									<c:when test="${image.photo.mediumUrl != null}">${image.photo.mediumUrl}</c:when>
+									<c:otherwise>${image.photo.smallUrl}</c:otherwise>									
 								</c:choose>" 
 							 	title="<c:if test="${image.photo.title != null}">${image.photo.title}</c:if>">
 

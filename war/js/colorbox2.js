@@ -1,7 +1,7 @@
 jQuery(document).ready(function($){
 	$(".gallery").each(function(index, obj){
 		var galleryid = Math.floor(Math.random()*10000);
-		$(obj).find("a.image").colorbox({rel:galleryid, maxWidth:"100%", maxHeight:"100%"});
+		$(obj).find("a.image_").colorbox({rel:galleryid, maxWidth:"100%", maxHeight:"100%"});
 	});
 	
   $(".gallery").each(function(index, obj){

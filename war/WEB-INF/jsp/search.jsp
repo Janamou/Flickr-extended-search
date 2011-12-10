@@ -217,8 +217,8 @@
 					<div class="intro">
 					<div id="container-rerank" id="rerank_">
 					<h2>
-									<span>Reranking</span>
-								</h2>						
+						<span>Reranking</span>
+					</h2>						
 						<p>Prosím nastavte prioritu jednotlivým rerankingům.</p>
 						<p>Ke každému rerankingu přiřaďte prioritu, kde 10 je <strong>maximální</strong> a 0 <strong>žádná</strong>.</p>
 						<table>
@@ -226,13 +226,12 @@
 								<tr>
 									<th>Autor</th>
 									<td>
-										<label for="rerank_string">Přezdívka autora</label>
+										<label for="rerank_string">Přezdívka autora: </label>
 										<input type="text" name="rerank_string" id="rerank_string" />
 									</td>
 									<td>
 										<label for="rerank_priority_string">Priorita: </label>
-										<select name="rerank_priority_string"
-												id="rerank_priority_string">
+										<select name="rerank_priority_string" id="rerank_priority_string">
 											<option value="0">0</option>
 											<option value="1">1</option>
 											<option value="2">2</option>
@@ -250,7 +249,7 @@
 								<tr>
 									<th>Velikost obrázku</th>
 									<td>
-										<label for="rerank_size_type">Typ třízení:</label>
+										<label for="rerank_size_type">Typ třídění:</label>
 										<select name="rerank_size_type" id="rerank_size_type">
 											<option value="desc_width">Sestupně podle šířky</option>
 											<option value="asc_width">Vzestupně podle šířky</option>
@@ -260,7 +259,7 @@
 									</td>
 									<td>
 										<label for="rerank_priority_size">Priorita: </label>
-										<select name="rerank_priority_size" id="rerank_priority_size">
+										<select name="rerank_priority_size" id="rerank_priority_size" >
 											<option value="0">0</option>
 											<option value="1">1</option>
 											<option value="2">2</option>
