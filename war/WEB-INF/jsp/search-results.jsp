@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<!-- <link rel="stylesheet" media="screen,projection" type="text/css" href="css/main.css" /> -->
+<link rel="stylesheet" media="screen,projection" type="text/css" href="css/main.css" />
 <link rel="stylesheet" media="print" type="text/css" href="css/print.css" />
 <link rel="stylesheet" media="aural" type="text/css" href="css/aural.css" />
 
@@ -15,18 +15,10 @@
 <script type="text/javascript" src="js/colorbox2.js"></script>
 
 <!--  --><script>
-	$(document).ready(function(){
-		//Examples of how to assign the ColorBox event to elements
-		//$(".image_").colorbox({rel:'image__'});			
+	$(document).ready(function(){			
 		$(this).attr('rel','image_rel'); 
-		var imgSrc = $(this).children().attr('src');
-		//$(this).attr('href',imgSrc.replace('_s.jpg','.jpg'));
-		//$(this).attr('href',imgSrc.replace('_t.jpg','.jpg'));
-	});
-	//$(".inline_").colorbox({html:"<h1>Welcome</h1>"});
-	//$(".inline").colorbox({inline:true, href:".moreinfo"});
-	//$('a[rel*=image_rel]').colorbox({rel:'image_rel', transition:"none", width:"75%", height:"75%", title: "titulecek"});
-	//$('a[rel*=image_rel]').colorbox({rel:'image_rel', transition:"none", width:"75%", height:"75%"});
+		var imgSrc = $(this).children().attr('src');		
+	});	
 </script>
 
 
@@ -43,14 +35,15 @@
 					<h2><span>Výsledky vyhledávání</span></h2>
 					<p>Nalezeno: ${size} výsledků.</p>					
 					<c:forEach var="image" items="${images}" varStatus="status">
-						<div class="image">
-						<!-- Cena: ${image.cost}, Autor: ${image.photo.owner.username},
-						Distance string: ${image.distanceString}, Distance geo: ${image.distanceGeo} -->
+						<div class="image">							
 
 							<a class="image_" rel="image_rel" href="
 								<c:choose>
-									<c:when test="${image.photo.mediumUrl != null}">${image.photo.mediumUrl}</c:when>
-									<c:otherwise>${image.photo.smallUrl}</c:otherwise>
+									<c:when test="${image.photo.largeUrl != null}">${image.photo.largeUrl}</c:when>
+									<c:otherwise>									
+										<c:when test="${image.photo.mediumUrl != null}">${image.photo.mediumUrl}</c:when>
+										<c:otherwise>${image.photo.smallUrl}</c:otherwise>
+									</c:otherwise>
 								</c:choose>" 
 							 	title="<c:if test="${image.photo.title != null}">${image.photo.title}</c:if>">
 
@@ -61,45 +54,40 @@
 							 <div style="display: none">
 	  							 <div class="img_properties" id="inline_content${status.index}" style='padding:10px; background:#fff;'>				    																		
 									<img class="preview" src="${image.photo.smallUrl}"  alt="" />
-									<c:if test="${image.photo.dateTaken != null}">Datum pořízení: ${image.photo.dateTaken}</c:if>														 									 									 
-  							 </div>
-  							
-
-							 <!-- <a class="image_ " rel="image_rel" title="<c:if test="${image.photo.title != null}"><p>${image.photo.title}</p></c:if>" href="
-							 <c:choose>
-								 <c:when test="${image.photo.mediumUrl != null}">${image.photo.mediumUrl}</c:when>
-								 <c:otherwise>${image.photo.smallUrl}</c:otherwise>
-							 </c:choose>">
-							 	
-							 <img src="${image.photo.thumbnailUrl}" />
-							 	
-							 <div>
-							 	<span id="image_hidden">
-								 <h3><c:if test="${image.photo.title != null}">${image.photo.title}</c:if></h3>
-								 <p><c:if test="${image.photo.description != null}">${image.photo.description}</c:if></p>
-								 <p>
-								 	<c:if test="${image.photo.dateAdded != null}">Datum přidání: ${image.photo.dateAdded}, </c:if>
-								 	<c:if test="${image.photo.dateTaken != null}">Datum pořízení: ${image.photo.dateTaken}</c:if>
-								 </p>
-								 <p>
-								 	<c:if test="${image.photo.geoData.longitude != null && image.photo.geoData.latitude != null}">Geo data: lat: ${image.photo.geoData.latitude}, lon: ${image.photo.geoData.longitude}</c:if>
-								 </p>
-								 <p>
-								 	<c:if test="${image.photo.tags != null}">Tagy: 
-								 		<c:forEach var="tag" items="${image.photo.tags}">
-									 		<c:if test="${tag.value != ''}">
-									 			${tag.value},
-									 		</c:if>
-								 		</c:forEach>
-								 	</c:if>				 
-								 </p>
-								 <p>
-								 	Sirka: ${image.photo.originalWidth}px, Vyska: ${image.photo.originalHeight}px		 
-								 </p>
-								</span>
-							 </div> 
-							 
-							 </a>-->
+									<table class="info_table">
+										<c:if test="${image.photo.title != null}"><tr><td class="bold">Titulek: </td><td>${image.photo.title}</td></tr></c:if>
+										<c:if test="${image.photo.description != null}"><tr><td class="bold">Popis: </td><td>${image.photo.description}</td></tr></c:if>
+										<c:if test="${image.photo.dateAdded != null}"><tr><td class="bold">Datum přidání: </td><td>${image.photo.dateAdded}</td></tr></c:if>
+										<c:if test="${image.photo.dateTaken != null}"><tr><td class="bold">Datum pořízení: </td><td>${image.photo.dateTaken}</td></tr></c:if>
+										<c:if test="${image.photo.geoData.longitude != null && image.photo.geoData.latitude != null}">
+											<tr>
+												<td class="bold">Geo data - latitude: </td>
+												<td>${image.photo.geoData.latitude}</td>
+											</tr>
+											<tr>
+												<td class="bold">Geo data - longitude: </td>
+												<td>${image.photo.geoData.longitude}</td>
+											</tr>
+										</c:if>
+										<c:if test="${image.photo.tags != null}">									
+									 		<tr><td class="bold">Tagy: </td>
+									 			<td>
+										 			<c:forEach var="tag" items="${image.photo.tags}">
+											 			<c:if test="${tag.value != ''}">
+											 				${tag.value},								 			
+											 			</c:if>
+										 			</c:forEach>
+									 			</td>
+									 		</tr>
+										</c:if>
+											
+										<tr><td class="bold">Šířka: </td><td> ${image.photo.originalWidth} px</td></tr>
+										<tr><td class="bold">Výška: </td><td>${image.photo.originalHeight} px</td></tr>
+										
+									</table>
+			
+  							 	</div>
+  							 </div>  														
 
 						</div>
 						<script>

@@ -1,12 +1,12 @@
 jQuery(document).ready(function($){
 	$(".gallery").each(function(index, obj){
 		var galleryid = Math.floor(Math.random()*10000);
-		$(obj).find("a.image").colorbox({rel:galleryid, maxWidth:"90%", maxHeight:"90%"});
+		$(obj).find("a.image").colorbox({rel:galleryid, maxWidth:"100%", maxHeight:"100%"});
 	});
 	
   $(".gallery").each(function(index, obj){
 		galleryid2 = Math.floor(Math.random()*10000);
-		$(obj).find("a.moreinfo").colorbox({rel:galleryid2, inline:true, width:"700px", height:"500px"});
+		$(obj).find("a.moreinfo").colorbox({rel:galleryid2, inline:true, width:"650px", height:"400px"});
 	});
 	
 	$("a[href$='.jpg']").colorbox({maxWidth:"90%", maxHeight:"90%"});
