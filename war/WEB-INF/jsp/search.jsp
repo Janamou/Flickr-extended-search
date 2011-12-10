@@ -121,11 +121,14 @@
 														</td>
 														<td><input type="text" name="radius" id="radius"
 															value="5" />
-															<input class="arrow-top" type="button" value=" /\ "															
-															style="font-size:7px;margin:0;padding:0;width:20px;height:13px;">
-															<input class="arrow-bottom" type=button value=" \/ "														
-															style="font-size:7px;margin:0;padding:0;width:20px;height:12px;">													
-														km</td>
+															<span class="arrow-buttons">
+																<input class="arrow-top" type="button" value=" /\ "															
+																style="font-size:7px;margin:0;padding:0;width:20px;height:13px;">
+																<input class="arrow-bottom" type=button value=" \/ "														
+																style="font-size:7px;margin:0;padding:0;width:20px;height:12px;">
+															</span>
+															<span class="kilometers">km</span>													
+														</td>
 													<tr>												
 											</tr>
 													
