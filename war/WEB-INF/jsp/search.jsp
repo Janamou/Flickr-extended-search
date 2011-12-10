@@ -48,7 +48,7 @@
 								<div id="col_search" class="noprint">
 									<div id="col-in_search">
 
-										<h3>
+										<h3 id="word">
 											<span>Klíčová slova</span>
 										</h3>
 										<div id="keywords_">

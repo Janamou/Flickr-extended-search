@@ -157,6 +157,7 @@ code, kbd, samp {font-family:monospace; font-size:110%;}
     /* Search */
     #keywords_, #date_, #lat-long_ {padding-bottom: 7px;}
     #col #keywords_ table {}
+    h3#word {margin-top: 48px;}
     td #keywords {width: 193px;}
     td #tags_mode {width: 197px;}
     #lat-long_ input#latitude, #lat-long_ input#longitude {width: 123px;}
@@ -168,12 +169,16 @@ code, kbd, samp {font-family:monospace; font-size:110%;}
         
     #date_ input#min_date, #date_ input#max_date {width: 168px;}
     #rerank_ {clear:both; margin:0; padding:20px; background:url("images/content_article_bg.jpg") 0 0 no-repeat;}
-    select#search_results {width: 100%;}
+    select#search_results {width: 100%;}  
+    
     /* Search - results*/
     .intro_results {width: 820px; height: 600px; clear:both; margin:0; padding:20px; background:url("images/content_article_bg2.jpg") 0 0 no-repeat;}
     #image_hidden {display: none;}  
     .image {border: 7px solid #cccccc; float:left; height:100px; width: 100px; overflow:hidden; display:table-cell; margin: 11px;}
     .image a {display: table-cell; height: 100px; width: 100px; vertical-align: middle; text-align: center;}        
+	.bold {font-weight: bold;}
+	.preview {float: left; margin-right: 20px;}
+	.info_table td {border: 1px solid silver;}      
    
  	/*.gallery .moreinfo { display: block; width: 24px; height: 23px; position: absolute; top: -23px; right: 3px; background-color: url('css/images/next.gif') 0 0 no-repeat; opacity: 0.7 }
 	*/.gallery .moreinfo:hover { opacity: 0.8;}

@@ -14,7 +14,7 @@
 <script type="text/javascript" src="js/jquery.colorbox.js"></script>
 <script type="text/javascript" src="js/colorbox2.js"></script>
 
-<!--  --><script>
+<script>
 	$(document).ready(function(){			
 		$(this).attr('rel','image_rel'); 
 		var imgSrc = $(this).children().attr('src');		
