@@ -9,12 +9,12 @@ jQuery(document).ready(function($){
 		$(obj).find("a.moreinfo").colorbox({rel:galleryid2, inline:true, width:"800px", height:"500px"});
 	});
 	
-	$("a[href$='.jpg']").colorbox({maxWidth:"90%", maxHeight:"90%"});
-	$("a[href$='.JPG']").colorbox({maxWidth:"90%", maxHeight:"90%"});
-	$("a[href$='.gif']").colorbox({maxWidth:"90%", maxHeight:"90%"});
-	$("a[href$='.GIF']").colorbox({maxWidth:"90%", maxHeight:"90%"});
-	$("a[href$='.png']").colorbox({maxWidth:"90%", maxHeight:"90%"});
-	$("a[href$='.PNG']").colorbox({maxWidth:"90%", maxHeight:"90%"});
-	$("a[href$='.jpeg']").colorbox({maxWidth:"90%", maxHeight:"90%"});
-	$("a[href$='.JPEG']").colorbox({maxWidth:"90%", maxHeight:"90%"});
+	$("a[href$='.jpg']").colorbox({maxWidth:"100%", maxHeight:"100%"});
+	$("a[href$='.JPG']").colorbox({maxWidth:"100%", maxHeight:"100%"});
+	$("a[href$='.gif']").colorbox({maxWidth:"100%", maxHeight:"100%"});
+	$("a[href$='.GIF']").colorbox({maxWidth:"100%", maxHeight:"100%"});
+	$("a[href$='.png']").colorbox({maxWidth:"100%", maxHeight:"100%"});
+	$("a[href$='.PNG']").colorbox({maxWidth:"100%", maxHeight:"100%"});
+	$("a[href$='.jpeg']").colorbox({maxWidth:"100%", maxHeight:"100%"});
+	$("a[href$='.JPEG']").colorbox({maxWidth:"100%", maxHeight:"100%"});
 });
