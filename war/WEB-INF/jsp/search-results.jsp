@@ -45,9 +45,9 @@
 							 	title="<c:if test="${image.photo.title != null}">${image.photo.title}</c:if>">
 
 								<img src="${image.photo.thumbnailUrl}" alt="" />
-								<a class="moreinfo" href="#inline_content${status.index}"><img src="css/images/next.gif"/></a>							 
+															 
 							 </a>
-
+							 <a class="moreinfo" href="#inline_content${status.index}">i</a>
 							 <div style="display: none">
 	  							 <div class="img_properties" id="inline_content${status.index}" style='padding:10px; background:#fff;'>				    																		
 									<img class="preview" src="${image.photo.smallUrl}"  alt="" />

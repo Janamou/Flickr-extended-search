@@ -168,12 +168,12 @@ code, kbd, samp {font-family:monospace; font-size:110%;}
     .arrow-buttons .arrow-bottom {margin-top: -1px;}       
     .kilometers {margin: 5px; display: block; float: left;}
         
-    #date_ input#min_date, #date_ input#max_date {width: 168px;}
-    #rerank_ {clear:both; margin:0; padding:20px; background:url("images/content_article_bg.jpg") 0 0 no-repeat;}
+    #date_ input#min_date, #date_ input#max_date {width: 168px;}    
     select#search_results {width: 100%;}      
     #container-rerank table th {vertical-align: middle; width: 150px}
     #container-rerank table td {vertical-align: middle; padding-left: 11px}
-    #tags_mode, select#search_results , #rerank_size_type, #rerank_priority_date, #rerank_priority_geo, #rerank_priority_string, #rerank_priority_size {border: 1px solid silver;}
+    #tags_mode, select#search_results, 
+    #rerank_size_type, #rerank_priority_date, #rerank_priority_geo, #rerank_priority_string, #rerank_priority_size {border: 1px solid silver;}
     #rerank_size_type {width: 185px;}      
     
     /* Search - results*/
@@ -184,18 +184,21 @@ code, kbd, samp {font-family:monospace; font-size:110%;}
 	.bold {font-weight: bold; width: 140px}
 	.preview {float: left; margin-right: 20px; border: 3px solid silver;}
 	.info_table td {border: 1px solid silver;}      
-   
- 	/*.gallery .moreinfo { display: block; width: 24px; height: 23px; position: absolute; top: -23px; right: 3px; background-color: url('css/images/next.gif') 0 0 no-repeat; opacity: 0.7 }
-	*/.gallery .moreinfo:hover { opacity: 0.8;}
-	
-	/* OBSAH -> moreinfo ---------------------------*/
-	/*
-	.img_properties { padding: 8px; }
-	.img_properties img { float: left; border: 4px solid #E6E6E6; margin-right: 15px; }
-	.img_properties table { color: #000; }
-	.img_properties td { padding: 9px 10px; background: #FDFDFD; }
-	  */
-   
+   	
+	.gallery .moreinfo {				
+		background: url("images/moreinfo.png") 0 0 no-repeat;
+		display: block;
+		position: absolute;
+		margin-top: -100px;
+		height: 24px;
+		width: 24px;		
+		text-indent: -9999px;
+		overflow: hidden;
+		opacity: 0.8;		
+		margin-left: -16px;
+		margin-top: -114px;
+	}
+	.gallery .moreinfo:hover { opacity: 0.9; background: url("images/moreinfo.png") 0 24px;}  
    
     /* Right column - Links */
     #col ul#links {margin:15px 0; padding:0; list-style:none;}

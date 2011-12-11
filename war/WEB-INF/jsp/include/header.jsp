@@ -21,7 +21,7 @@ window.onload = setActive;
 
 <div id="tabs" class="noprint">
    	<h3 class="noscreen">Navigation</h3>
-    <ul class="box" class="menu menu-h" id="tab">	      	    
+    <ul class="box menu menu-h" id="tab">	      	    
       <li><a href="/index">Domů<span class="tab-l"></span><span class="tab-r"></span></a></li>
       <li><a href="/search">Vyhledávání<span class="tab-l"></span><span class="tab-r"></span></a></li>
       <li><a href="/about">O projektu<span class="tab-l"></span><span class="tab-r"></span></a></li>      	      

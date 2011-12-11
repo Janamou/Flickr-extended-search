@@ -4,34 +4,23 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" media="screen,projection" type="text/css"
-	href="css/main.css" />
-<link rel="stylesheet" media="print" type="text/css"
-	href="css/print.css" />
-<link rel="stylesheet" media="aural" type="text/css"
-	href="css/aural.css" />
-<link rel="stylesheet"
-	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css"
-	type="text/css" media="all" />
-<link rel="stylesheet"
-	href="http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css"
-	type="text/css" media="all" />
-<link rel="stylesheet" href="css/ui.stepper.css" type="text/css"
-	media="all" />
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"
+<link rel="stylesheet" media="screen,projection" type="text/css" href="css/main.css" />
+<link rel="stylesheet" media="print" type="text/css" href="css/print.css" />
+<link rel="stylesheet" media="aural" type="text/css" href="css/aural.css" />
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" type="text/css" media="all" />
+<link rel="stylesheet" href="http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css" type="text/css" media="all" />
+<link rel="stylesheet" href="css/ui.stepper.css" type="text/css" media="all" />
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"
 	type="text/javascript"></script>
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"
 	type="text/javascript"></script>
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/i18n/jquery-ui-i18n.min.js"
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/i18n/jquery-ui-i18n.min.js"
 	type="text/javascript"></script>
 <script src="js/jquery.ui.datepicker-cs.js" type="text/javascript"></script>
 <script src="js/jquery.mousewheel.js" type="text/javascript"></script>
 <script src="js/init.js" type="text/javascript"></script>
-<script type="text/javascript"
-	src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
 <title>Semestrální práce VMW - Flickr - metadata based reranking</title>
 </head>
@@ -129,29 +118,25 @@
 															</span>
 															<span class="kilometers">km</span>													
 														</td>
-													<tr>												
-											</tr>
-													
-										</tbody>
-									</table>					
-					          	</div>
+													</tr>												
+												</tbody>
+											</table>					
+					          			</div>
 					          	
-					          	<h3>
-											<span>Maximální počet výsledků</span>
-										</h3>		
-					          	<div id="results_">									
-									<!-- <label for="search_results">Maximální počet výsledků</label> --> 
-									<select name="search_results" id="search_results">
-										<option value="10">10</option>
-										<option value="25">25</option>
-										<option value="50">50</option>
-										<option value="100">100</option>
-									</select>
-								</div>		
+					          			<h3><span>Maximální počet výsledků</span></h3>		
+							          	<div id="results_">									
+											<label for="search_results"></label> 
+											<select name="search_results" id="search_results">
+												<option value="10">10</option>
+												<option value="25">25</option>
+												<option value="50">50</option>
+												<option value="100">100</option>
+											</select>
+										</div>		
 					          						          	       		          			          
-					          	<hr class="noscreen" />					                    
-					        </div>                
-			      		</div>
+					          			<hr class="noscreen" />					                    
+					        		</div>                
+			      				</div>
 						
 						<p>Zadejte parametry vyhledávání, podle kterých chcete vyhledávat.</p>
 						<!--  <h3>Základní vyhledávání</h3>
@@ -215,11 +200,10 @@
 					</div>
 					
 					<div class="intro">
-					<div id="container-rerank" id="rerank_">
+					<div id="container-rerank">
 					<h2>
 						<span>Reranking</span>
-					</h2>						
-						<p>Prosím nastavte prioritu jednotlivým rerankingům.</p>
+					</h2>												
 						<p>Ke každému rerankingu přiřaďte prioritu, kde 10 je <strong>maximální</strong> a 0 <strong>žádná</strong>.</p>
 						<table>
 							<tbody>
