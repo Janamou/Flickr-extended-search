@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -33,7 +34,7 @@
 			<div id="content">
 				<div class="intro_results gallery">
 					<h2><span>Výsledky vyhledávání</span></h2>
-					<p>Nalezeno: ${size} výsledků.</p>					
+					<p>Nalezeno: ${size} výsledků.</p>				
 					<c:forEach var="image" items="${images}" varStatus="status">
 						<div class="image">							
 						
@@ -59,8 +60,7 @@
 										<c:if test="${image.photo.title != null}"><tr><td class="bold">Titulek: </td><td>${image.photo.title}</td></tr></c:if>
 										<c:if test="${image.photo.owner.username != null}"><tr><td class="bold">Autor: </td><td>${image.photo.owner.username}</td></tr></c:if>
 										<c:if test="${image.photo.description != null}"><tr><td class="bold">Popis: </td><td>${image.photo.description}</td></tr></c:if>
-										<c:if test="${image.photo.dateAdded != null}"><tr><td class="bold">Datum přidání: </td><td>${image.photo.dateAdded}</td></tr></c:if>
-										<c:if test="${image.photo.dateTaken != null}"><tr><td class="bold">Datum pořízení: </td><td>${image.photo.dateTaken}</td></tr></c:if>
+										<c:if test="${image.photo.dateTaken != null}"><tr><td class="bold">Datum pořízení: </td><td><fmt:formatDate value="${image.photo.dateTaken}" pattern="dd.MM.yyyy HH:mm"/></td></tr></c:if>
 										<c:if test="${image.photo.geoData.longitude != null && image.photo.geoData.latitude != null}">
 											<tr>
 												<td class="bold">Geo data - latitude: </td>
@@ -83,9 +83,21 @@
 									 		</tr>
 										</c:if>
 											
-										<tr><td class="bold">Šířka: </td><td> ${image.photo.originalWidth} px</td></tr>
-										<tr><td class="bold">Výška: </td><td>${image.photo.originalHeight} px</td></tr>
-										
+										<tr><td class="bold">Šířka: </td><td>
+												<c:choose>																
+													<c:when test="${image.photo.originalWidth != 0}">${image.photo.originalWidth}px</c:when>
+													<c:otherwise>nedefinována</c:otherwise>									
+												</c:choose>
+											</td>
+										</tr>
+										<tr><td class="bold">Výška: </td>
+										<td>
+											<c:choose>																
+												<c:when test="${image.photo.originalHeight != 0}">${image.photo.originalHeight}px</c:when>
+												<c:otherwise>nedefinována</c:otherwise>									
+											</c:choose>
+										</td>
+										</tr>										
 									</table>
 			
   							 	</div>

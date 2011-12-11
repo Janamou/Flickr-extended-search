@@ -148,8 +148,8 @@ code, kbd, samp {font-family:monospace; font-size:110%;}
 #col-in_search {padding:20px 10px; background:url("images/col_top.gif") 0 0 no-repeat;}
 #col_search h3 {padding:13px 15px 14px 15px; margin:0 -10px 15px -10px; background:#c9c9c9 url("images/col_title_bg.gif") 0 0 repeat-y; color:#3f3f3f;}
 
-#col_search_button {float:right; width:230px; margin:-257px -310px 0 0; padding:0;}
-#col_search_button input {height: 30px}
+#col_search_button {float:right; width:230px; margin:-10px -245px 20px 0; padding:0;}
+#col_search_button input {height: 50px; width: 200px;}
 
     /* Right column - About me */
     #col #about-me {margin-bottom:15px; line-height:130%;}

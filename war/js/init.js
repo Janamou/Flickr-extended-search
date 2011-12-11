@@ -63,10 +63,36 @@ $(document).ready(function() {
 
 	// Form submit
 	$("form").submit(function() {
-		if ($("#keywords").val() == "") {
-			// alert("Prosím vyplňte text nebo geolokaci, podle které budete
-			// vyhledávat.");
-			// return false;
+		if ($("#keywords").val() == "" && $("#latitude").val() == "" && $("#longitude").val() == "") {
+			$("#keywords").focus();
+			alert("Prosím vyplňte text nebo geolokaci, podle které budete vyhledávat.");
+			return false;
+		}
+		
+		if($("#rerank_priority_string").val() > 0 && $("#rerank_string").val() == ""){
+			alert("Prosím vyplňte jméno autora.");
+			$("#rerank_string").focus();
+			return false;
+		}
+		
+		if($("#rerank_priority_date").val() > 0 && $("#rerank_date").val() == ""){
+			alert("Prosím vyplňte referenční datum.");
+			$("#rerank_date").focus();
+			return false;
+		}
+		
+		if($("#rerank_priority_geo").val() > 0 && $("#latitude").val() == "" && $("#longitude").val() == ""){
+			alert("Prosím vyplňte geo lokaci.");
+			$("#latitude").focus();
+			return false;
+		}
+		
+		if($("#rerank_priority_string").val() == 0){
+			$("#rerank_string").val("");
+		}
+		
+		if($("#rerank_priority_date").val() == 0){
+			$("#rerank_date").val("");
 		}
 	});
 
