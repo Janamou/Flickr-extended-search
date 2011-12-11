@@ -41,6 +41,7 @@
 											<span>Klíčová slova</span>
 										</h3>
 										<div id="keywords_">
+											<p>Vyhledání obrázků podle daných klíčových slov nebo tagů.</p>
 											<table>
 												<tbody>
 													<tr>
@@ -69,6 +70,7 @@
 											<span>Vyhledávání podle data</span>
 										</h3>
 										<div id="date_">
+											<p>Omezení obrázků na zvolený rozsah data pořízení.</p>
 											<table>
 												<tbody>
 													<tr>
@@ -90,6 +92,7 @@
 											<span>Vyhledávání podle lokace</span>
 										</h3>
 										<div id="lat-long_">
+											<p>Omezení na obrázky v blízkosti dané lokace.</p>
 											<table>
 												<tbody>
 													<tr>
@@ -124,7 +127,8 @@
 					          			</div>
 					          	
 					          			<h3><span>Maximální počet výsledků</span></h3>		
-							          	<div id="results_">									
+							          	<div id="results_">	
+							          		<p>Maximální počet výsledků, které budou vráceny.</p>								
 											<label for="search_results"></label> 
 											<select name="search_results" id="search_results">
 												<option value="10">10</option>
@@ -139,63 +143,11 @@
 			      				</div>
 						
 						<p>Zadejte parametry vyhledávání, podle kterých chcete vyhledávat.</p>
-						<!--  <h3>Základní vyhledávání</h3>
-						<table>
-							<tbody>
-								<tr>
-									<th><label for="keywords">Klíčová slova:</label></th>
-									<td><input type="text" name="keywords" id="keywords" /> <select
-										name="tags_mode" id="tags_mode">
-											<option value="any">Některá slova</option>
-											<option value="all">Všechna slova</option>
-									</select> <br /> <label for="text">text</label><input type="radio"
-										name="text_selection" id="text" value="text" checked="checked" />
-										<label for="tags">tagy</label><input type="radio"
-										name="text_selection" id="tags" value="tagy" />
-									</td>
-								</tr>
-							</tbody>
-						</table>
-						<h3>Vyhledávání s datem</h3>
-						<table>
-							<tbody>
-								<tr>
-									<th>Datum:</th>
-									<td><label for="min_date">Od:</label> <input type="text"
-										name="min_date" id="min_date" class="datepicker" /> <label
-										for="max_date">Do:</label> <input type="text" name="max_date"
-										id="max_date" class="datepicker" /> <br /> <label
-										for="upload_date">nahrání</label><input type="radio"
-										name="date_selection" id="upload_date" value="upload"
-										checked="checked" /> <label for="taken_date">pořízení</label><input
-										type="radio" name="date_selection" id="taken_date" value="taken" />
-									</td>
-								</tr>
-							</tbody>
-						</table>-->
 						<h2>
 									<span>Vyhledávání s lokací</span>
 								</h2>						
 						<p>Klikněte do mapy na místo pro získání dat lokace.</p>
-						<div id="map_canvas" style="width: 590px; height: 590px"></div>
-						<!-- <table>
-							<tbody>
-								<tr>
-									<th><label for="latitude">Latitude:</label></th>
-									<td><input type="text" name="latitude" id="latitude" /></td>
-								</tr>
-								<tr>
-									<th><label for="longitude">Longitude:</label></th>
-									<td><input type="text" name="longitude" id="longitude" /></td>
-								</tr>
-								<tr>
-									<th><label for="radius">Poloměr:</label></th>
-									<td><input type="text" name="radius" id="radius" value="5" />
-										km</td>
-								</tr>
-							</tbody>
-						</table> -->
-						
+						<div id="map_canvas" style="width: 590px; height: 750px"></div>						
 					</div>					
 					</div>
 					
@@ -203,14 +155,16 @@
 					<div id="container-rerank">
 					<h2>
 						<span>Reranking</span>
-					</h2>												
-						<p>Ke každému rerankingu přiřaďte prioritu, kde 10 je <strong>maximální</strong> a 0 <strong>žádná</strong>.</p>
+					</h2>		
+						<p>Při nastavení priority některému z parametrů se výsledné obrázky přetřídí podle vzdálenosti k danému parametru. Nastavte prioritu 0 až 10, kde 10 je <strong>maximální</strong> a 0 <strong>žádná</strong>. Reranking s prioritou 0 nebude použit.</p>
 						<table>
 							<tbody>
 								<tr>
 									<th>Autor</th>
 									<td>
 										<label for="rerank_string">Přezdívka autora: </label>
+									</td>
+									<td>	
 										<input type="text" name="rerank_string" id="rerank_string" />
 									</td>
 									<td>
@@ -233,7 +187,9 @@
 								<tr>
 									<th>Velikost obrázku</th>
 									<td>
-										<label for="rerank_size_type">Typ třídění:</label>
+										<label for="rerank_size_type">Typ třízení:</label>
+									</td>
+									<td>	
 										<select name="rerank_size_type" id="rerank_size_type">
 											<option value="desc_width">Sestupně podle šířky</option>
 											<option value="asc_width">Vzestupně podle šířky</option>
@@ -259,12 +215,16 @@
 									</td>
 								</tr>
 								<tr>
-									<th>GEO lokace</th>
+									<th>Datum</th>
 									<td>
+										<label for="rerank_date">Datum: </label>
+									</td>
+									<td>	
+										<input type="text" name="rerank_date" id="rerank_date" class="datepicker" />
 									</td>
 									<td>
-										<label for="rerank_priority_geo">Priorita: </label>
-										<select name="rerank_priority_geo" id="rerank_priority_geo">
+										<label for="rerank_priority_date">Priorita: </label>
+										<select name="rerank_priority_date" id="rerank_priority_date">
 											<option value="0">0</option>
 											<option value="1">1</option>
 											<option value="2">2</option>
@@ -280,12 +240,14 @@
 									</td>
 								</tr>
 								<tr>
-									<th>Datum</th>
+									<th>GEO lokace</th>
 									<td>
 									</td>
 									<td>
-										<label for="rerank_priority_date">Priorita: </label>
-										<select name="rerank_priority_date" id="rerank_priority_date">
+									</td>
+									<td>
+										<label for="rerank_priority_geo">Priorita: </label>
+										<select name="rerank_priority_geo" id="rerank_priority_geo">
 											<option value="0">0</option>
 											<option value="1">1</option>
 											<option value="2">2</option>

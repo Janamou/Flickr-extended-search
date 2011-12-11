@@ -49,40 +49,11 @@ public class Distances {
 	/**
 	 * Returns distance between two dates.
 	 * 
-	 * @param startFormDate - start Date from form
-	 * @param endFormDate - end Date from form
-	 * @param photoDate - Date of actual photo
-	 * @param asc - sorting asc/desc
-	 * 
-	 * */
-	public static double computeDateDistance(Date startFormDate, Date endFormDate, Date photoDate, boolean asc){
-		
-		if (photoDate == null) {
-		    throw new IllegalArgumentException("Date must not be null");
-		}
-		
-		long cost = 0;
-		
-		if (asc) {
-			if (startFormDate == null) {
-				cost = computeDateDistance(photoDate, new Date(0)); //we set boundaries from beginning
-			} else {
-				System.out.println("vypisuju");
-				cost = computeDateDistance(photoDate, startFormDate);
-			}			
-		} else {
-			if (endFormDate == null) {
-				cost = computeDateDistance(new Date(), photoDate); //we set it to this date
-			} else {
-				cost = computeDateDistance(endFormDate, photoDate);
-			}
-		}
-		
-		return cost;
-	}
-	
-	private static long computeDateDistance(Date start, Date end){
-		return start.getTime() - end.getTime();
+	 * */	
+	public static double computeDateDistance(Date start, Date end){
+		double difference = Math.abs(start.getTime() - end.getTime());
+
+		return difference/1000/365/24/3600;
 	}	
 	
 	/**

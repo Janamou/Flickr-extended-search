@@ -52,7 +52,10 @@
 	  							 <div class="img_properties" id="inline_content${status.index}" style='padding:10px; background:#fff;'>				    																		
 									<img class="preview" src="${image.photo.smallUrl}"  alt="" />
 									<table class="info_table">
-										<tr><td class="bold">Celková cena (reranking): </td><td>${image.cost}</td></tr>
+										<tr><td class="bold">Celková cena: </td><td>${image.cost}</td></tr>
+										<tr><td class="bold">Vzdálenost řetězců: </td><td>${image.distanceString}</td></tr>
+										<tr><td class="bold">Vzdálenost geo lokace: </td><td>${image.distanceGeo}km</td></tr>
+										<tr><td class="bold">Vzdálenost datumů: </td><td>${image.distanceDate}let</td></tr>
 										<c:if test="${image.photo.title != null}"><tr><td class="bold">Titulek: </td><td>${image.photo.title}</td></tr></c:if>
 										<c:if test="${image.photo.owner.username != null}"><tr><td class="bold">Autor: </td><td>${image.photo.owner.username}</td></tr></c:if>
 										<c:if test="${image.photo.description != null}"><tr><td class="bold">Popis: </td><td>${image.photo.description}</td></tr></c:if>
