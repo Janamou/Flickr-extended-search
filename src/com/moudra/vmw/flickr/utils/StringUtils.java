@@ -27,7 +27,6 @@ public class StringUtils {
 		
 		String[] stringDateArray = stringDate.split("\\.");
 		Date date = new Date(Integer.parseInt(stringDateArray[2]) - 1900, Integer.parseInt(stringDateArray[1]) - 1, Integer.parseInt(stringDateArray[0]));		
-		System.out.println(date.getTime());
 		return date;
 	}
 	

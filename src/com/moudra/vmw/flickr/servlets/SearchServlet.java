@@ -180,34 +180,37 @@ public class SearchServlet extends HttpServlet {
 		double distanceRecomputedGeo = 0;
 		double distanceRecomputedDate = 0;
 		double side = 0;
-		distanceString = distanceGeo = distanceDate = 0;		
-		
-		if (!rerankAutor.equals("")){
-			distance = Distances.computeLevensteinDistance(rerankAutor, image.getOwner().getUsername());
-			distanceString = distance;
-			distanceRecomputedString = Distances.recomputeDistance(0.09, 0.1, distance);
-		}
-		
-		if (!latitude.equals("") && !longitude.equals("")){
-			distance = Distances.computeGeoDistance(Double.parseDouble(latitude), Double.parseDouble(longitude), image.getGeoData().getLatitude(), image.getGeoData().getLongitude()); 
-			distanceGeo = distance;
-			distanceRecomputedGeo = Distances.recomputeDistance(0.09, 0.1, distance);
-		}
-
-		if (!rerankDate.equals("")){
-			distance = Distances.computeDateDistance(StringUtils.createDateFromString(rerankDate), image.getDateTaken());
-			distanceDate = distance;
-			distanceRecomputedDate = Distances.recomputeDistance(0.09, 0.1, distance);
-		}
-		
-		side = Distances.setSide(image.getOriginalWidth(), image.getOriginalHeight(), rankAccordingWidth);		
-		double imageSide = Distances.recomputeDistance(0.00009, 0.1, side);
+		double imageSide = 0;
+		distanceString = distanceGeo = distanceDate = 0;	
 		
 		int priorityString = Integer.parseInt(rerankPriorityString);
 		int priorityGeo = Integer.parseInt(rerankPriorityGeo); 
 		int priorityDate = Integer.parseInt(rerankPriorityDate);
 		int prioritySize = Integer.parseInt(rerankPrioritySize);
 		
+		if (!rerankAutor.equals("") && priorityString != 0){
+			distance = Distances.computeLevensteinDistance(rerankAutor, image.getOwner().getUsername());
+			distanceString = distance;
+			distanceRecomputedString = Distances.recomputeDistance(0.09, 0.1, distance);
+		}
+		
+		if (!latitude.equals("") && !longitude.equals("") && priorityGeo != 0){
+			distance = Distances.computeGeoDistance(Double.parseDouble(latitude), Double.parseDouble(longitude), image.getGeoData().getLatitude(), image.getGeoData().getLongitude()); 
+			distanceGeo = distance;
+			distanceRecomputedGeo = Distances.recomputeDistance(0.09, 0.1, distance);
+		}
+
+		if (!rerankDate.equals("") && priorityDate != 0){
+			distance = Distances.computeDateDistance(StringUtils.createDateFromString(rerankDate), image.getDateTaken());
+			distanceDate = distance;
+			distanceRecomputedDate = Distances.recomputeDistance(0.09, 0.1, distance);
+		}
+		
+		if(prioritySize != 0){
+			side = Distances.setSide(image.getOriginalWidth(), image.getOriginalHeight(), rankAccordingWidth);		
+			imageSide = Distances.recomputeDistance(0.00009, 0.1, side);
+		}
+				
 		double[] distances = Distances.setDistancesArray(distanceRecomputedString, distanceRecomputedGeo, distanceRecomputedDate, imageSide);
 		int[] priorities = Distances.setPrioritiesArray(priorityString, priorityGeo, priorityDate, prioritySize);
 		

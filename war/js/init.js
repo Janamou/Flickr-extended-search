@@ -87,13 +87,14 @@ $(document).ready(function() {
 			return false;
 		}
 		
+		/*
 		if($("#rerank_priority_string").val() == 0){
 			$("#rerank_string").val("");
 		}
 		
 		if($("#rerank_priority_date").val() == 0){
 			$("#rerank_date").val("");
-		}
+		}*/
 	});
 
 	// Spinner

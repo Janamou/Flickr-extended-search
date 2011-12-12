@@ -174,7 +174,8 @@ code, kbd, samp {font-family:monospace; font-size:110%;}
     #container-rerank table td {vertical-align: middle; padding-left: 11px}
     #tags_mode, select#search_results, 
     #rerank_size_type, #rerank_priority_date, #rerank_priority_geo, #rerank_priority_string, #rerank_priority_size {border: 1px solid silver;}
-    #rerank_size_type {width: 185px;}      
+    #rerank_size_type {width: 185px;}  
+    #rerank_string, #rerank_date {width: 180px;}    
     
     /* Search - results*/
     .intro_results {width: 820px; height: 600px; clear:both; margin:0; padding:20px; background:url("images/content_article_bg2.jpg") 0 0 no-repeat;}
