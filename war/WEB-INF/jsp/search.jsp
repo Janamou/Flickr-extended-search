@@ -187,7 +187,7 @@
 								<tr>
 									<th>Velikost obrázku</th>
 									<td>
-										<label for="rerank_size_type">Typ třízení:</label>
+										<label for="rerank_size_type">Typ třídění:</label>
 									</td>
 									<td>	
 										<select name="rerank_size_type" id="rerank_size_type">
